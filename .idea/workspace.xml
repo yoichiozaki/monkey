@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="7c1d10b4-ff39-4466-b05f-c6da3c2a9ca4" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/parser/parser_tracing.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ast/ast.go" beforeDir="false" afterPath="$PROJECT_DIR$/ast/ast.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/parser/parser.go" beforeDir="false" afterPath="$PROJECT_DIR$/parser/parser.go" afterDir="false" />
@@ -17,35 +18,39 @@
     <session id="48050101">
       <usages-collector id="statistics.lifecycle.project">
         <counts>
+          <entry key="project.closed" value="1" />
           <entry key="project.open.time.0" value="1" />
-          <entry key="project.opened" value="1" />
+          <entry key="project.open.time.7" value="1" />
+          <entry key="project.opened" value="2" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
         <counts>
-          <entry key="go" value="9" />
+          <entry key="go" value="10" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
         <counts>
-          <entry key="Go" value="9" />
+          <entry key="Go" value="10" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="go" value="12973" />
-          <entry key="txt" value="255" />
+          <entry key="go" value="17424" />
+          <entry key="txt" value="342" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="Go" value="12973" />
-          <entry key="PLAIN_TEXT" value="255" />
+          <entry key="Go" value="17424" />
+          <entry key="PLAIN_TEXT" value="342" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.go.postfix.template.usages.trigger">
         <counts>
           <entry key=".len" value="1" />
+          <entry key=".par" value="2" />
+          <entry key=".println" value="1" />
           <entry key=".return" value="1" />
           <entry key=".var" value="2" />
         </counts>
@@ -53,7 +58,7 @@
     </session>
   </component>
   <component name="FileEditorManager">
-    <leaf>
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/token/token.go">
           <provider selected="true" editor-type-id="text-editor">
@@ -66,8 +71,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/lexer/lexer_test.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="105">
-              <caret line="7" column="26" lean-forward="true" selection-start-line="7" selection-start-column="26" selection-end-line="7" selection-end-column="26" />
+            <state relative-caret-position="60">
+              <caret line="7" column="26" selection-start-line="7" selection-start-column="26" selection-end-line="7" selection-end-column="26" />
               <folding>
                 <element signature="e#15#52#0" expanded="true" />
               </folding>
@@ -79,7 +84,7 @@
         <entry file="file://$PROJECT_DIR$/lexer/lexer.go">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="720">
-              <caret line="48" column="24" lean-forward="true" selection-start-line="48" selection-start-column="24" selection-end-line="48" selection-end-column="24" />
+              <caret line="48" column="24" selection-start-line="48" selection-start-column="24" selection-end-line="48" selection-end-column="24" />
             </state>
           </provider>
         </entry>
@@ -87,7 +92,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/repl/repl.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="195">
+            <state relative-caret-position="105">
               <caret line="13" column="19" lean-forward="true" selection-end-line="30" />
               <folding>
                 <element signature="e#14#78#0" expanded="true" />
@@ -99,7 +104,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/main.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="300">
+            <state relative-caret-position="225">
               <caret line="20" lean-forward="true" selection-start-line="20" selection-end-line="20" />
               <folding>
                 <element signature="e#14#69#0" expanded="true" />
@@ -111,11 +116,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/ast/ast.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="550">
-              <caret line="139" column="68" selection-start-line="139" selection-start-column="68" selection-end-line="139" selection-end-column="68" />
-              <folding>
-                <element signature="e#13#48#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="2580">
+              <caret line="176" column="23" selection-start-line="176" selection-start-column="23" selection-end-line="176" selection-end-column="23" />
             </state>
           </provider>
         </entry>
@@ -123,10 +125,19 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/parser/parser.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-384">
-              <caret line="41" column="53" selection-start-line="41" selection-start-column="53" selection-end-line="41" selection-end-column="53" />
+            <state relative-caret-position="661">
+              <caret line="253" column="45" selection-start-line="253" selection-start-column="45" selection-end-line="253" selection-end-column="45" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/parser/parser_tracing.go">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="525">
+              <caret line="35" column="14" selection-start-line="35" selection-start-column="14" selection-end-line="35" selection-end-column="14" />
               <folding>
-                <element signature="e#16#79#0" expanded="true" />
+                <element signature="e#16#44#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -135,10 +146,10 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/parser/parser_test.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="385">
-              <caret line="156" column="28" selection-start-line="156" selection-start-column="28" selection-end-line="156" selection-end-column="28" />
+            <state relative-caret-position="456">
+              <caret line="312" column="10" lean-forward="true" selection-start-line="312" selection-start-column="10" selection-end-line="312" selection-end-column="10" />
               <folding>
-                <element signature="e#16#53#0" expanded="true" />
+                <element signature="e#16#74#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -172,6 +183,7 @@
         <option value="$PROJECT_DIR$/main.go" />
         <option value="$PROJECT_DIR$/ast/ast.go" />
         <option value="$PROJECT_DIR$/parser/parser_test.go" />
+        <option value="$PROJECT_DIR$/parser/parser_tracing.go" />
         <option value="$PROJECT_DIR$/parser/parser.go" />
       </list>
     </option>
@@ -252,7 +264,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Go Test.TestIntegerLiteralExpression in monkey/parser">
+  <component name="RunManager" selected="Go Test.TestOperatorPrecedenceParsing in monkey/parser">
     <configuration name="TestIdentifierExpression in monkey/parser" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
       <module name="monkey" />
       <working_directory value="$PROJECT_DIR$/parser" />
@@ -277,7 +289,7 @@
       <pattern value="^TestIntegerLiteralExpression$" />
       <method v="2" />
     </configuration>
-    <configuration name="TestLetStatements in monkey/parser" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+    <configuration name="TestOperatorPrecedenceParsing in monkey/parser" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
       <module name="monkey" />
       <working_directory value="$PROJECT_DIR$/parser" />
       <go_parameters value="-i" />
@@ -286,7 +298,19 @@
       <package value="monkey/parser" />
       <directory value="$PROJECT_DIR$/" />
       <filePath value="$PROJECT_DIR$/" />
-      <pattern value="^TestLetStatements$" />
+      <pattern value="^TestOperatorPrecedenceParsing$" />
+      <method v="2" />
+    </configuration>
+    <configuration name="TestParsingPrefixExpressions in monkey/parser" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+      <module name="monkey" />
+      <working_directory value="$PROJECT_DIR$/parser" />
+      <go_parameters value="-i" />
+      <framework value="gotest" />
+      <kind value="PACKAGE" />
+      <package value="monkey/parser" />
+      <directory value="$PROJECT_DIR$/" />
+      <filePath value="$PROJECT_DIR$/" />
+      <pattern value="^TestParsingPrefixExpressions$" />
       <method v="2" />
     </configuration>
     <configuration name="TestReturnStatements in monkey/parser" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
@@ -301,47 +325,24 @@
       <pattern value="^TestReturnStatements$" />
       <method v="2" />
     </configuration>
-    <configuration name="go test monkey/parser" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
-      <module name="monkey" />
-      <working_directory value="$PROJECT_DIR$/parser" />
-      <go_parameters value="-i" />
-      <framework value="gotest" />
-      <kind value="PACKAGE" />
-      <package value="monkey/parser" />
-      <directory value="$PROJECT_DIR$/" />
-      <filePath value="$PROJECT_DIR$/" />
-      <method v="2" />
-    </configuration>
     <list>
-      <item itemvalue="Go Test.go test monkey/parser" />
-      <item itemvalue="Go Test.TestLetStatements in monkey/parser" />
       <item itemvalue="Go Test.TestReturnStatements in monkey/parser" />
       <item itemvalue="Go Test.TestIdentifierExpression in monkey/parser" />
       <item itemvalue="Go Test.TestIntegerLiteralExpression in monkey/parser" />
+      <item itemvalue="Go Test.TestParsingPrefixExpressions in monkey/parser" />
+      <item itemvalue="Go Test.TestOperatorPrecedenceParsing in monkey/parser" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Go Test.TestOperatorPrecedenceParsing in monkey/parser" />
+        <item itemvalue="Go Test.TestParsingPrefixExpressions in monkey/parser" />
         <item itemvalue="Go Test.TestIntegerLiteralExpression in monkey/parser" />
         <item itemvalue="Go Test.TestIdentifierExpression in monkey/parser" />
         <item itemvalue="Go Test.TestReturnStatements in monkey/parser" />
-        <item itemvalue="Go Test.TestLetStatements in monkey/parser" />
-        <item itemvalue="Go Test.go test monkey/parser" />
       </list>
     </recent_temporary>
   </component>
   <component name="TestHistory">
-    <history-entry file="TestLetStatements_in_monkey_parser - 2018.09.26 at 13h 12m 14s.xml">
-      <configuration name="TestLetStatements in monkey/parser" configurationId="GoTestRunConfiguration" />
-    </history-entry>
-    <history-entry file="TestLetStatements_in_monkey_parser - 2018.09.26 at 13h 12m 30s.xml">
-      <configuration name="TestLetStatements in monkey/parser" configurationId="GoTestRunConfiguration" />
-    </history-entry>
-    <history-entry file="TestLetStatements_in_monkey_parser - 2018.09.26 at 13h 12m 36s.xml">
-      <configuration name="TestLetStatements in monkey/parser" configurationId="GoTestRunConfiguration" />
-    </history-entry>
-    <history-entry file="TestReturnStatements_in_monkey_parser - 2018.09.26 at 13h 12m 43s.xml">
-      <configuration name="TestReturnStatements in monkey/parser" configurationId="GoTestRunConfiguration" />
-    </history-entry>
     <history-entry file="TestReturnStatements_in_monkey_parser - 2018.09.26 at 13h 12m 59s.xml">
       <configuration name="TestReturnStatements in monkey/parser" configurationId="GoTestRunConfiguration" />
     </history-entry>
@@ -360,13 +361,25 @@
     <history-entry file="TestIntegerLiteralExpression_in_monkey_parser - 2018.09.27 at 23h 19m 06s.xml">
       <configuration name="TestIntegerLiteralExpression in monkey/parser" configurationId="GoTestRunConfiguration" />
     </history-entry>
+    <history-entry file="TestParsingPrefixExpressions_in_monkey_parser - 2018.09.28 at 14h 49m 43s.xml">
+      <configuration name="TestParsingPrefixExpressions in monkey/parser" configurationId="GoTestRunConfiguration" />
+    </history-entry>
+    <history-entry file="TestOperatorPrecedenceParsing_in_monkey_parser - 2018.09.28 at 16h 26m 43s.xml">
+      <configuration name="TestOperatorPrecedenceParsing in monkey/parser" configurationId="GoTestRunConfiguration" />
+    </history-entry>
+    <history-entry file="TestOperatorPrecedenceParsing_in_monkey_parser - 2018.09.28 at 16h 27m 56s.xml">
+      <configuration name="TestOperatorPrecedenceParsing in monkey/parser" configurationId="GoTestRunConfiguration" />
+    </history-entry>
+    <history-entry file="TestOperatorPrecedenceParsing_in_monkey_parser - 2018.09.29 at 16h 14m 13s.xml">
+      <configuration name="TestOperatorPrecedenceParsing in monkey/parser" configurationId="GoTestRunConfiguration" />
+    </history-entry>
   </component>
   <component name="ToolWindowManager">
     <frame x="840" y="0" width="840" height="1050" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="Favorites" order="0" side_tool="true" />
-      <window_info content_ui="combo" id="Project" order="1" visible="true" weight="0.21303259" />
+      <window_info content_ui="combo" id="Project" order="1" visible="true" weight="0.21804512" />
       <window_info id="Structure" order="2" side_tool="true" weight="0.24969475" />
       <window_info anchor="bottom" id="Messages" order="0" weight="0.32941177" />
       <window_info anchor="bottom" id="Database Changes" order="1" show_stripe_button="false" />
@@ -403,12 +416,38 @@
     <MESSAGE value="add expression-statement" />
     <MESSAGE value="add TestString()" />
     <MESSAGE value="implement identifier expression parser" />
-    <option name="LAST_COMMIT_MESSAGE" value="implement identifier expression parser" />
+    <MESSAGE value="Implemented parseIntegerExpression()" />
+    <MESSAGE value="Implemented Prefix-parser" />
+    <option name="LAST_COMMIT_MESSAGE" value="Implemented Prefix-parser" />
   </component>
   <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/token/token.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="285">
+          <caret line="19" column="14" selection-start-line="19" selection-start-column="14" selection-end-line="19" selection-end-column="14" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lexer/lexer_test.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="60">
+          <caret line="7" column="26" selection-start-line="7" selection-start-column="26" selection-end-line="7" selection-end-column="26" />
+          <folding>
+            <element signature="e#15#52#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lexer/lexer.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="720">
+          <caret line="48" column="24" selection-start-line="48" selection-start-column="24" selection-end-line="48" selection-end-column="24" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/repl/repl.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="195">
+        <state relative-caret-position="105">
           <caret line="13" column="19" lean-forward="true" selection-end-line="30" />
           <folding>
             <element signature="e#14#78#0" expanded="true" />
@@ -418,7 +457,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/main.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="300">
+        <state relative-caret-position="225">
           <caret line="20" lean-forward="true" selection-start-line="20" selection-end-line="20" />
           <folding>
             <element signature="e#14#69#0" expanded="true" />
@@ -426,56 +465,36 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/lexer/lexer.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="720">
-          <caret line="48" column="24" lean-forward="true" selection-start-line="48" selection-start-column="24" selection-end-line="48" selection-end-column="24" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/lexer/lexer_test.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="105">
-          <caret line="7" column="26" lean-forward="true" selection-start-line="7" selection-start-column="26" selection-end-line="7" selection-end-column="26" />
-          <folding>
-            <element signature="e#15#52#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/token/token.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="285">
-          <caret line="19" column="14" selection-start-line="19" selection-start-column="14" selection-end-line="19" selection-end-column="14" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/ast/ast.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="550">
-          <caret line="139" column="68" selection-start-line="139" selection-start-column="68" selection-end-line="139" selection-end-column="68" />
+        <state relative-caret-position="2580">
+          <caret line="176" column="23" selection-start-line="176" selection-start-column="23" selection-end-line="176" selection-end-column="23" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/parser/parser_tracing.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="525">
+          <caret line="35" column="14" selection-start-line="35" selection-start-column="14" selection-end-line="35" selection-end-column="14" />
           <folding>
-            <element signature="e#13#48#0" expanded="true" />
+            <element signature="e#16#44#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/parser/parser.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-384">
-          <caret line="41" column="53" selection-start-line="41" selection-start-column="53" selection-end-line="41" selection-end-column="53" />
-          <folding>
-            <element signature="e#16#79#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="661">
+          <caret line="253" column="45" selection-start-line="253" selection-start-column="45" selection-end-line="253" selection-end-column="45" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/parser/parser_test.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="385">
-          <caret line="156" column="28" selection-start-line="156" selection-start-column="28" selection-end-line="156" selection-end-column="28" />
+        <state relative-caret-position="456">
+          <caret line="312" column="10" lean-forward="true" selection-start-line="312" selection-start-column="10" selection-end-line="312" selection-end-column="10" />
           <folding>
-            <element signature="e#16#53#0" expanded="true" />
+            <element signature="e#16#74#0" expanded="true" />
           </folding>
         </state>
       </provider>
