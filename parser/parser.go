@@ -19,7 +19,7 @@ const ( // 優先順位
 	CALL       // myFunction(x)
 )
 
-var precendences = map[token.TokenType]int{
+var precedences = map[token.TokenType]int{
 	token.EQ:       EQUALS,
 	token.NOT_EQ:   EQUALS,
 	token.LT:       LESSGRATER,
@@ -28,6 +28,7 @@ var precendences = map[token.TokenType]int{
 	token.MINUS:    SUM,
 	token.SLASH:    PRODUCT,
 	token.ASTERISK: PRODUCT,
+	token.LPAREN:   CALL,
 }
 
 type Parser struct {
@@ -68,6 +69,7 @@ func New(l *lexer.Lexer) *Parser {
 	p.registerInfix(token.NOT_EQ, p.parseInfixExpression)
 	p.registerInfix(token.LT, p.parseInfixExpression)
 	p.registerInfix(token.GT, p.parseInfixExpression)
+	p.registerInfix(token.LPAREN, p.parseCallExpression)
 	return p
 }
 
@@ -242,14 +244,14 @@ func (p *Parser) parsePrefixExpression() ast.Expression {
 }
 
 func (p *Parser) peekPrecedence() int {
-	if p, ok := precendences[p.peekToken.Type]; ok {
+	if p, ok := precedences[p.peekToken.Type]; ok {
 		return p
 	}
 	return LOWEST
 }
 
 func (p *Parser) currPrecedence() int {
-	if p, ok := precendences[p.curToken.Type]; ok {
+	if p, ok := precedences[p.curToken.Type]; ok {
 		return p
 	}
 	return LOWEST
@@ -374,4 +376,35 @@ func (p *Parser) parseFunctionParamaters() []*ast.Identifier {
 	}
 
 	return identifiers
+}
+
+func (p *Parser) parseCallExpression(function ast.Expression) ast.Expression {
+	exp := &ast.CallExpression{Token: p.curToken, Function: function}
+	exp.Arguments = p.parseCallArguments()
+	return exp
+}
+
+func (p *Parser) parseCallArguments() []ast.Expression {
+	args := []ast.Expression{}
+
+	// hello()みたいな関数の時は空の引数リスト
+	if p.peekTokenIs(token.RPAREN) {
+		p.nextToken()
+		return args
+	}
+
+	p.nextToken()
+	args = append(args, p.parseExpression(LOWEST))
+
+	for p.peekTokenIs(token.COMMA) {
+		p.nextToken()
+		p.nextToken()
+		args = append(args, p.parseExpression(LOWEST))
+	}
+
+	if !p.expectPeek(token.RPAREN) {
+		return nil
+	}
+
+	return args
 }

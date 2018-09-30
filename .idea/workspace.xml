@@ -28,32 +28,33 @@
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
         <counts>
-          <entry key="go" value="10" />
+          <entry key="go" value="11" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
         <counts>
-          <entry key="Go" value="10" />
+          <entry key="Go" value="11" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="go" value="22833" />
-          <entry key="txt" value="392" />
+          <entry key="go" value="27506" />
+          <entry key="txt" value="472" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="Go" value="22833" />
-          <entry key="PLAIN_TEXT" value="392" />
+          <entry key="Go" value="27506" />
+          <entry key="PLAIN_TEXT" value="472" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.go.postfix.template.usages.trigger">
         <counts>
           <entry key=".len" value="1" />
-          <entry key=".p" value="1" />
-          <entry key=".par" value="2" />
-          <entry key=".println" value="1" />
+          <entry key=".p" value="2" />
+          <entry key=".par" value="4" />
+          <entry key=".print" value="1" />
+          <entry key=".println" value="2" />
           <entry key=".return" value="1" />
           <entry key=".var" value="3" />
         </counts>
@@ -119,17 +120,29 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/ast/ast.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="193">
-              <caret line="188" column="5" selection-start-line="188" selection-start-column="5" selection-end-line="188" selection-end-column="5" />
+            <state relative-caret-position="402">
+              <caret line="277" column="42" selection-start-line="277" selection-start-column="42" selection-end-line="277" selection-end-column="42" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/parser/parser.go">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-5081">
+              <caret line="30" column="23" selection-start-line="30" selection-start-column="23" selection-end-line="30" selection-end-column="23" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/parser/parser.go">
+        <entry file="file://$PROJECT_DIR$/parser/parser_test.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="95">
-              <caret line="61" column="28" selection-start-line="61" selection-start-column="28" selection-end-line="61" selection-end-column="28" />
+            <state relative-caret-position="-9517">
+              <caret line="29" column="14" lean-forward="true" selection-start-line="29" selection-start-column="14" selection-end-line="29" selection-end-column="14" />
+              <folding>
+                <element signature="e#16#74#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -141,18 +154,6 @@
               <caret line="36" column="1" selection-start-line="36" selection-start-column="1" selection-end-line="36" selection-end-column="1" />
               <folding>
                 <element signature="e#16#44#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/parser/parser_test.go">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="3585">
-              <caret line="239" column="14" lean-forward="true" selection-start-line="239" selection-start-column="14" selection-end-line="239" selection-end-column="14" />
-              <folding>
-                <element signature="e#16#74#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -170,6 +171,9 @@
   <component name="FindInProjectRecents">
     <findStrings>
       <find>eof</find>
+      <find>testoperatorprecedenceparsing</find>
+      <find>Join</find>
+      <find>join</find>
     </findStrings>
   </component>
   <component name="GOROOT" path="/usr/local/Cellar/go/1.10.3/libexec" />
@@ -184,9 +188,9 @@
         <option value="$PROJECT_DIR$/lexer/lexer.go" />
         <option value="$PROJECT_DIR$/repl/repl.go" />
         <option value="$PROJECT_DIR$/main.go" />
+        <option value="$PROJECT_DIR$/parser/parser.go" />
         <option value="$PROJECT_DIR$/parser/parser_tracing.go" />
         <option value="$PROJECT_DIR$/ast/ast.go" />
-        <option value="$PROJECT_DIR$/parser/parser.go" />
         <option value="$PROJECT_DIR$/parser/parser_test.go" />
       </list>
     </option>
@@ -267,8 +271,8 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Go Test.go test monkey/parser">
-    <configuration name="TestIfElseExpression in monkey/parser" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+  <component name="RunManager" selected="Go Test.TestOperatorPrecedenceParsing in monkey/parser">
+    <configuration name="TestCallExpressionParsing in monkey/parser" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
       <module name="monkey" />
       <working_directory value="$PROJECT_DIR$/parser" />
       <go_parameters value="-i" />
@@ -277,10 +281,10 @@
       <package value="monkey/parser" />
       <directory value="$PROJECT_DIR$/" />
       <filePath value="$PROJECT_DIR$/" />
-      <pattern value="^TestIfElseExpression$" />
+      <pattern value="^TestCallExpressionParsing$" />
       <method v="2" />
     </configuration>
-    <configuration name="TestIfExpression in monkey/parser" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+    <configuration name="TestFunctionLiteralParsing in monkey/parser" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
       <module name="monkey" />
       <working_directory value="$PROJECT_DIR$/parser" />
       <go_parameters value="-i" />
@@ -289,7 +293,19 @@
       <package value="monkey/parser" />
       <directory value="$PROJECT_DIR$/" />
       <filePath value="$PROJECT_DIR$/" />
-      <pattern value="^TestIfExpression$" />
+      <pattern value="^TestFunctionLiteralParsing$" />
+      <method v="2" />
+    </configuration>
+    <configuration name="TestFunctionParameterParsing in monkey/parser" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+      <module name="monkey" />
+      <working_directory value="$PROJECT_DIR$/parser" />
+      <go_parameters value="-i" />
+      <framework value="gotest" />
+      <kind value="PACKAGE" />
+      <package value="monkey/parser" />
+      <directory value="$PROJECT_DIR$/" />
+      <filePath value="$PROJECT_DIR$/" />
+      <pattern value="^TestFunctionParameterParsing$" />
       <method v="2" />
     </configuration>
     <configuration name="TestOperatorPrecedenceParsing in monkey/parser" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
@@ -304,18 +320,6 @@
       <pattern value="^TestOperatorPrecedenceParsing$" />
       <method v="2" />
     </configuration>
-    <configuration name="TestParsingPrefixExpressions in monkey/parser" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
-      <module name="monkey" />
-      <working_directory value="$PROJECT_DIR$/parser" />
-      <go_parameters value="-i" />
-      <framework value="gotest" />
-      <kind value="PACKAGE" />
-      <package value="monkey/parser" />
-      <directory value="$PROJECT_DIR$/" />
-      <filePath value="$PROJECT_DIR$/" />
-      <pattern value="^TestParsingPrefixExpressions$" />
-      <method v="2" />
-    </configuration>
     <configuration name="go test monkey/parser" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
       <module name="monkey" />
       <working_directory value="$PROJECT_DIR$/parser" />
@@ -328,52 +332,52 @@
       <method v="2" />
     </configuration>
     <list>
-      <item itemvalue="Go Test.TestParsingPrefixExpressions in monkey/parser" />
-      <item itemvalue="Go Test.TestOperatorPrecedenceParsing in monkey/parser" />
-      <item itemvalue="Go Test.TestIfExpression in monkey/parser" />
-      <item itemvalue="Go Test.TestIfElseExpression in monkey/parser" />
       <item itemvalue="Go Test.go test monkey/parser" />
+      <item itemvalue="Go Test.TestFunctionLiteralParsing in monkey/parser" />
+      <item itemvalue="Go Test.TestFunctionParameterParsing in monkey/parser" />
+      <item itemvalue="Go Test.TestCallExpressionParsing in monkey/parser" />
+      <item itemvalue="Go Test.TestOperatorPrecedenceParsing in monkey/parser" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Go Test.go test monkey/parser" />
-        <item itemvalue="Go Test.TestIfElseExpression in monkey/parser" />
-        <item itemvalue="Go Test.TestIfExpression in monkey/parser" />
         <item itemvalue="Go Test.TestOperatorPrecedenceParsing in monkey/parser" />
-        <item itemvalue="Go Test.TestParsingPrefixExpressions in monkey/parser" />
+        <item itemvalue="Go Test.TestCallExpressionParsing in monkey/parser" />
+        <item itemvalue="Go Test.TestFunctionParameterParsing in monkey/parser" />
+        <item itemvalue="Go Test.go test monkey/parser" />
+        <item itemvalue="Go Test.TestFunctionLiteralParsing in monkey/parser" />
       </list>
     </recent_temporary>
   </component>
   <component name="TestHistory">
-    <history-entry file="TestParsingPrefixExpressions_in_monkey_parser - 2018.09.29 at 21h 39m 42s.xml">
-      <configuration name="TestParsingPrefixExpressions in monkey/parser" configurationId="GoTestRunConfiguration" />
+    <history-entry file="TestCallExpressionParsing_in_monkey_parser - 2018.09.30 at 14h 55m 45s.xml">
+      <configuration name="TestCallExpressionParsing in monkey/parser" configurationId="GoTestRunConfiguration" />
     </history-entry>
-    <history-entry file="TestParsingPrefixExpressions_in_monkey_parser - 2018.09.29 at 21h 39m 53s.xml">
-      <configuration name="TestParsingPrefixExpressions in monkey/parser" configurationId="GoTestRunConfiguration" />
+    <history-entry file="TestCallExpressionParsing_in_monkey_parser - 2018.09.30 at 14h 56m 14s.xml">
+      <configuration name="TestCallExpressionParsing in monkey/parser" configurationId="GoTestRunConfiguration" />
     </history-entry>
-    <history-entry file="TestOperatorPrecedenceParsing_in_monkey_parser - 2018.09.29 at 21h 43m 22s.xml">
+    <history-entry file="TestFunctionParameterParsing_in_monkey_parser - 2018.09.30 at 15h 10m 40s.xml">
+      <configuration name="TestFunctionParameterParsing in monkey/parser" configurationId="GoTestRunConfiguration" />
+    </history-entry>
+    <history-entry file="TestCallExpressionParsing_in_monkey_parser - 2018.09.30 at 15h 10m 50s.xml">
+      <configuration name="TestCallExpressionParsing in monkey/parser" configurationId="GoTestRunConfiguration" />
+    </history-entry>
+    <history-entry file="TestOperatorPrecedenceParsing_in_monkey_parser - 2018.09.30 at 15h 13m 33s.xml">
       <configuration name="TestOperatorPrecedenceParsing in monkey/parser" configurationId="GoTestRunConfiguration" />
     </history-entry>
-    <history-entry file="TestOperatorPrecedenceParsing_in_monkey_parser - 2018.09.29 at 21h 46m 09s.xml">
+    <history-entry file="TestOperatorPrecedenceParsing_in_monkey_parser - 2018.09.30 at 15h 14m 03s.xml">
       <configuration name="TestOperatorPrecedenceParsing in monkey/parser" configurationId="GoTestRunConfiguration" />
     </history-entry>
-    <history-entry file="TestOperatorPrecedenceParsing_in_monkey_parser - 2018.09.29 at 21h 46m 40s.xml">
+    <history-entry file="TestOperatorPrecedenceParsing_in_monkey_parser - 2018.09.30 at 15h 14m 05s.xml">
       <configuration name="TestOperatorPrecedenceParsing in monkey/parser" configurationId="GoTestRunConfiguration" />
     </history-entry>
-    <history-entry file="TestIfExpression_in_monkey_parser - 2018.09.30 at 11h 08m 50s.xml">
-      <configuration name="TestIfExpression in monkey/parser" configurationId="GoTestRunConfiguration" />
+    <history-entry file="TestOperatorPrecedenceParsing_in_monkey_parser - 2018.09.30 at 15h 18m 51s.xml">
+      <configuration name="TestOperatorPrecedenceParsing in monkey/parser" configurationId="GoTestRunConfiguration" />
     </history-entry>
-    <history-entry file="TestIfExpression_in_monkey_parser - 2018.09.30 at 11h 25m 52s.xml">
-      <configuration name="TestIfExpression in monkey/parser" configurationId="GoTestRunConfiguration" />
+    <history-entry file="TestOperatorPrecedenceParsing_in_monkey_parser - 2018.09.30 at 15h 27m 47s.xml">
+      <configuration name="TestOperatorPrecedenceParsing in monkey/parser" configurationId="GoTestRunConfiguration" />
     </history-entry>
-    <history-entry file="TestIfElseExpression_in_monkey_parser - 2018.09.30 at 11h 25m 57s.xml">
-      <configuration name="TestIfElseExpression in monkey/parser" configurationId="GoTestRunConfiguration" />
-    </history-entry>
-    <history-entry file="go_test_monkey_parser - 2018.09.30 at 11h 26m 10s.xml">
-      <configuration name="go test monkey/parser" configurationId="GoTestRunConfiguration" />
-    </history-entry>
-    <history-entry file="go_test_monkey_parser - 2018.09.30 at 11h 37m 52s.xml">
-      <configuration name="go test monkey/parser" configurationId="GoTestRunConfiguration" />
+    <history-entry file="TestOperatorPrecedenceParsing_in_monkey_parser - 2018.09.30 at 15h 29m 35s.xml">
+      <configuration name="TestOperatorPrecedenceParsing in monkey/parser" configurationId="GoTestRunConfiguration" />
     </history-entry>
   </component>
   <component name="ToolWindowManager">
@@ -423,7 +427,9 @@
     <MESSAGE value="Implemented Prefix-parser" />
     <MESSAGE value="Implemented boolean parser" />
     <MESSAGE value="Implemented grouped expression parser" />
-    <option name="LAST_COMMIT_MESSAGE" value="Implemented grouped expression parser" />
+    <MESSAGE value="Implemented If-Else statement parser" />
+    <MESSAGE value="Implemented Function Literal parser" />
+    <option name="LAST_COMMIT_MESSAGE" value="Implemented Function Literal parser" />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/lexer/lexer_test.go">
@@ -470,13 +476,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/ast/ast.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="193">
-          <caret line="188" column="5" selection-start-line="188" selection-start-column="5" selection-end-line="188" selection-end-column="5" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/parser/parser_tracing.go">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="475">
@@ -487,20 +486,27 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/parser/parser.go">
+    <entry file="file://$PROJECT_DIR$/ast/ast.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="95">
-          <caret line="61" column="28" selection-start-line="61" selection-start-column="28" selection-end-line="61" selection-end-column="28" />
+        <state relative-caret-position="402">
+          <caret line="277" column="42" selection-start-line="277" selection-start-column="42" selection-end-line="277" selection-end-column="42" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/parser/parser_test.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3585">
-          <caret line="239" column="14" lean-forward="true" selection-start-line="239" selection-start-column="14" selection-end-line="239" selection-end-column="14" />
+        <state relative-caret-position="-9517">
+          <caret line="29" column="14" lean-forward="true" selection-start-line="29" selection-start-column="14" selection-end-line="29" selection-end-column="14" />
           <folding>
             <element signature="e#16#74#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/parser/parser.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-5081">
+          <caret line="30" column="23" selection-start-line="30" selection-start-column="23" selection-end-line="30" selection-end-column="23" />
         </state>
       </provider>
     </entry>
