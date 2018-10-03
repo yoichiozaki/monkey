@@ -19,11 +19,14 @@ func Eval(node ast.Node) object.Object {
 
 	// 文だった
 	case *ast.Program:
-		return evalStatements(node.Statements)
+		return evalProgram(node)
 	case *ast.ExpressionStatement:
 		return Eval(node.Expression)
 	case *ast.BlockStatement:
-		return evalStatements(node.Statements)
+		return evalBlockStatement(node)
+	case *ast.ReturnStatement:
+		val := Eval(node.ReturnValue)
+		return &object.ReturnValue{Value: val}
 
 	// 式だった
 	case *ast.IntegerLiteral:
@@ -44,14 +47,19 @@ func Eval(node ast.Node) object.Object {
 	return nil
 }
 
-// プログラム内のすべての式を評価するヘルパー関数
-func evalStatements(stmts []ast.Statement) object.Object {
-	var result object.Object
-	for _, statement := range stmts {
-		result = Eval(statement)
-	}
-	return result
-}
+// // プログラムやブロック内のすべての式を評価するヘルパー関数
+// func evalStatements(stmts []ast.Statement) object.Object {
+// 	var result object.Object
+// 	for _, statement := range stmts {
+// 		result = Eval(statement)
+//
+// 		// returnに出くわしたら今評価した値で処理を中断する
+// 		if returnValue, ok := result.(*object.ReturnValue); ok {
+// 			return returnValue.Value
+// 		}
+// 	}
+// 	return result
+// }
 
 // bool値に対して適切なBooleanオブジェクトを返す
 func nativeBoolToBooleanObject(input bool) *object.Boolean {
@@ -161,4 +169,36 @@ func isTruthy(obj object.Object) bool {
 	default:
 		return true
 	}
+}
+
+// プログラムを評価してObjectを返すヘルパー関数
+func evalProgram(program *ast.Program) object.Object {
+	var result object.Object
+	for _, statement := range program.Statements {
+
+		// プログラムを構成する一文一文を一つずつ評価していく
+		result = Eval(statement)
+
+		// 評価した結果得られたObjectがReturnValue型であったならばそれを返す
+		if returnValue, ok := result.(*object.ReturnValue); ok {
+			return returnValue.Value
+		}
+	}
+	return result
+}
+
+// ブロック文を評価してObjectを返すヘルパー関数
+func evalBlockStatement(block *ast.BlockStatement) object.Object {
+	var result object.Object
+
+	// ブロックに含まれている各文を評価していく
+	for _, statement := range block.Statements {
+		result = Eval(statement)
+
+		// 評価した結果がReturnValue型であったならばあんラップせずにresultを返す
+		if result != nil && result.Type() == object.RETURN_VALUE_OBJ {
+			return result
+		}
+	}
+	return result
 }
