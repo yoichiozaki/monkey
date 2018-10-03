@@ -29,24 +29,24 @@
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
         <counts>
-          <entry key="go" value="17" />
+          <entry key="go" value="18" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
         <counts>
-          <entry key="Go" value="17" />
+          <entry key="Go" value="18" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="go" value="47427" />
-          <entry key="txt" value="651" />
+          <entry key="go" value="48851" />
+          <entry key="txt" value="671" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="Go" value="47427" />
-          <entry key="PLAIN_TEXT" value="651" />
+          <entry key="Go" value="48851" />
+          <entry key="PLAIN_TEXT" value="671" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.go.postfix.template.usages.trigger">
@@ -79,8 +79,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/object/object.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="549">
-              <caret line="64" selection-start-line="64" selection-end-line="64" />
+            <state relative-caret-position="370">
+              <caret line="68" column="5" selection-start-line="68" selection-start-column="5" selection-end-line="68" selection-end-column="5" />
             </state>
           </provider>
         </entry>
@@ -88,10 +88,10 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/evaluator/evaluator.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="280">
-              <caret line="190" column="5" selection-start-line="190" selection-start-column="5" selection-end-line="190" selection-end-column="5" />
+            <state relative-caret-position="253">
+              <caret line="30" column="22" selection-start-line="30" selection-start-column="22" selection-end-line="30" selection-end-column="22" />
               <folding>
-                <element signature="e#19#60#0" expanded="true" />
+                <element signature="e#19#67#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -100,8 +100,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/evaluator/evaluator_test.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="158">
-              <caret line="67" column="50" selection-start-line="67" selection-start-column="50" selection-end-line="67" selection-end-column="50" />
+            <state relative-caret-position="308">
+              <caret line="264" column="10" selection-start-line="264" selection-start-column="10" selection-end-line="264" selection-end-column="10" />
               <folding>
                 <element signature="e#19#90#0" expanded="true" />
               </folding>
@@ -196,6 +196,10 @@
       <find>parseletstatement</find>
       <find>testparsingpre</find>
       <find>join</find>
+      <find>テストケース</find>
+      <find>テストセット</find>
+      <find>evalinte</find>
+      <find>newe</find>
     </findStrings>
   </component>
   <component name="GOROOT" path="/usr/local/Cellar/go/1.10.3/libexec" />
@@ -307,7 +311,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Go Test.TestReturnStatements in monkey/evaluator">
+  <component name="RunManager" selected="Go Test.TestErrorHandling in monkey/evaluator">
     <configuration name="go build main.go" type="GoApplicationRunConfiguration" factoryName="Go Application" temporary="true" nameIsGenerated="true">
       <module name="monkey" />
       <working_directory value="$PROJECT_DIR$/" />
@@ -318,7 +322,7 @@
       <directory value="$PROJECT_DIR$/" />
       <method v="2" />
     </configuration>
-    <configuration name="TestBangOperator in monkey/evaluator" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+    <configuration name="TestErrorHandling in monkey/evaluator" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
       <module name="monkey" />
       <working_directory value="$PROJECT_DIR$/evaluator" />
       <go_parameters value="-i" />
@@ -327,7 +331,7 @@
       <package value="monkey/evaluator" />
       <directory value="$PROJECT_DIR$/" />
       <filePath value="$PROJECT_DIR$/" />
-      <pattern value="^TestBangOperator$" />
+      <pattern value="^TestErrorHandling$" />
       <method v="2" />
     </configuration>
     <configuration name="TestEvalBooleanExpression in monkey/evaluator" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
@@ -368,40 +372,22 @@
     </configuration>
     <list>
       <item itemvalue="Go Build.go build main.go" />
-      <item itemvalue="Go Test.TestBangOperator in monkey/evaluator" />
       <item itemvalue="Go Test.TestEvalIntegerExpression in monkey/evaluator" />
       <item itemvalue="Go Test.TestEvalBooleanExpression in monkey/evaluator" />
       <item itemvalue="Go Test.TestReturnStatements in monkey/evaluator" />
+      <item itemvalue="Go Test.TestErrorHandling in monkey/evaluator" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Go Test.TestErrorHandling in monkey/evaluator" />
         <item itemvalue="Go Test.TestReturnStatements in monkey/evaluator" />
         <item itemvalue="Go Build.go build main.go" />
         <item itemvalue="Go Test.TestEvalBooleanExpression in monkey/evaluator" />
         <item itemvalue="Go Test.TestEvalIntegerExpression in monkey/evaluator" />
-        <item itemvalue="Go Test.TestBangOperator in monkey/evaluator" />
       </list>
     </recent_temporary>
   </component>
   <component name="TestHistory">
-    <history-entry file="TestBangOperator_in_monkey_evaluator - 2018.10.03 at 13h 48m 49s.xml">
-      <configuration name="TestBangOperator in monkey/evaluator" configurationId="GoTestRunConfiguration" />
-    </history-entry>
-    <history-entry file="TestEvalIntegerExpression_in_monkey_evaluator - 2018.10.03 at 14h 03m 49s.xml">
-      <configuration name="TestEvalIntegerExpression in monkey/evaluator" configurationId="GoTestRunConfiguration" />
-    </history-entry>
-    <history-entry file="TestEvalIntegerExpression_in_monkey_evaluator - 2018.10.03 at 14h 03m 54s.xml">
-      <configuration name="TestEvalIntegerExpression in monkey/evaluator" configurationId="GoTestRunConfiguration" />
-    </history-entry>
-    <history-entry file="TestEvalBooleanExpression_in_monkey_evaluator - 2018.10.03 at 14h 07m 16s.xml">
-      <configuration name="TestEvalBooleanExpression in monkey/evaluator" configurationId="GoTestRunConfiguration" />
-    </history-entry>
-    <history-entry file="TestReturnStatements_in_monkey_evaluator - 2018.10.03 at 14h 50m 14s.xml">
-      <configuration name="TestReturnStatements in monkey/evaluator" configurationId="GoTestRunConfiguration" />
-    </history-entry>
-    <history-entry file="TestReturnStatements_in_monkey_evaluator - 2018.10.03 at 14h 50m 46s.xml">
-      <configuration name="TestReturnStatements in monkey/evaluator" configurationId="GoTestRunConfiguration" />
-    </history-entry>
     <history-entry file="TestReturnStatements_in_monkey_evaluator - 2018.10.03 at 14h 50m 59s.xml">
       <configuration name="TestReturnStatements in monkey/evaluator" configurationId="GoTestRunConfiguration" />
     </history-entry>
@@ -413,6 +399,24 @@
     </history-entry>
     <history-entry file="TestReturnStatements_in_monkey_evaluator - 2018.10.03 at 15h 02m 30s.xml">
       <configuration name="TestReturnStatements in monkey/evaluator" configurationId="GoTestRunConfiguration" />
+    </history-entry>
+    <history-entry file="TestErrorHandling_in_monkey_evaluator - 2018.10.03 at 15h 25m 13s.xml">
+      <configuration name="TestErrorHandling in monkey/evaluator" configurationId="GoTestRunConfiguration" />
+    </history-entry>
+    <history-entry file="TestErrorHandling_in_monkey_evaluator - 2018.10.03 at 15h 32m 49s.xml">
+      <configuration name="TestErrorHandling in monkey/evaluator" configurationId="GoTestRunConfiguration" />
+    </history-entry>
+    <history-entry file="TestErrorHandling_in_monkey_evaluator - 2018.10.03 at 15h 40m 33s.xml">
+      <configuration name="TestErrorHandling in monkey/evaluator" configurationId="GoTestRunConfiguration" />
+    </history-entry>
+    <history-entry file="TestErrorHandling_in_monkey_evaluator - 2018.10.03 at 15h 41m 14s.xml">
+      <configuration name="TestErrorHandling in monkey/evaluator" configurationId="GoTestRunConfiguration" />
+    </history-entry>
+    <history-entry file="TestErrorHandling_in_monkey_evaluator - 2018.10.03 at 15h 42m 43s.xml">
+      <configuration name="TestErrorHandling in monkey/evaluator" configurationId="GoTestRunConfiguration" />
+    </history-entry>
+    <history-entry file="TestErrorHandling_in_monkey_evaluator - 2018.10.03 at 15h 51m 49s.xml">
+      <configuration name="TestErrorHandling in monkey/evaluator" configurationId="GoTestRunConfiguration" />
     </history-entry>
   </component>
   <component name="ToolWindowManager">
@@ -471,7 +475,8 @@
     <MESSAGE value="Implemented bang operator evaluator" />
     <MESSAGE value="Implemented minus operator evaluator like &quot;-5&quot;" />
     <MESSAGE value="Implemented infix operator evaluator and if-else statement evaluator" />
-    <option name="LAST_COMMIT_MESSAGE" value="Implemented infix operator evaluator and if-else statement evaluator" />
+    <MESSAGE value="Implemented return statement evaluator" />
+    <option name="LAST_COMMIT_MESSAGE" value="Implemented return statement evaluator" />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/lexer/lexer_test.go">
@@ -565,13 +570,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/object/object.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="549">
-          <caret line="64" selection-start-line="64" selection-end-line="64" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/ast/ast.go">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="193">
@@ -582,10 +580,17 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/object/object.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="370">
+          <caret line="68" column="5" selection-start-line="68" selection-start-column="5" selection-end-line="68" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/evaluator/evaluator_test.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="158">
-          <caret line="67" column="50" selection-start-line="67" selection-start-column="50" selection-end-line="67" selection-end-column="50" />
+        <state relative-caret-position="308">
+          <caret line="264" column="10" selection-start-line="264" selection-start-column="10" selection-end-line="264" selection-end-column="10" />
           <folding>
             <element signature="e#19#90#0" expanded="true" />
           </folding>
@@ -594,10 +599,10 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/evaluator/evaluator.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="280">
-          <caret line="190" column="5" selection-start-line="190" selection-start-column="5" selection-end-line="190" selection-end-column="5" />
+        <state relative-caret-position="253">
+          <caret line="30" column="22" selection-start-line="30" selection-start-column="22" selection-end-line="30" selection-end-column="22" />
           <folding>
-            <element signature="e#19#60#0" expanded="true" />
+            <element signature="e#19#67#0" expanded="true" />
           </folding>
         </state>
       </provider>

@@ -81,7 +81,7 @@ func testIntegerObject(t *testing.T, obj object.Object, expected int64) bool {
 // Booleanを正しく評価できているかをテスト
 func TestEvalBooleanExpression(t *testing.T) {
 
-	// テストケース
+	// テストセット
 	tests := []struct {
 		input    string
 		expected bool
@@ -107,7 +107,7 @@ func TestEvalBooleanExpression(t *testing.T) {
 		{"(1 > 2) == false", true},
 	}
 
-	// 各テストケースに対して
+	// 各テストセットに対して
 	for _, tt := range tests {
 
 		// inputを評価して
@@ -140,7 +140,7 @@ func testBooleanObject(t *testing.T, obj object.Object, expected bool) bool {
 // !演算子の評価をテスト
 func TestBangOperator(t *testing.T) {
 
-	// テストケース
+	// テストセット
 	// 5はtruthyに扱う
 	tests := []struct {
 		input    string
@@ -154,7 +154,7 @@ func TestBangOperator(t *testing.T) {
 		{"!!5", true},
 	}
 
-	// 各テストケースに対して
+	// 各テストセットに対して
 	for _, tt := range tests {
 
 		// inputを評価して
@@ -168,7 +168,7 @@ func TestBangOperator(t *testing.T) {
 // If-Else式の評価をテスト
 func TestIfElseExpressions(t *testing.T) {
 
-	// テストケース
+	// テストセット
 	tests := []struct {
 		input    string
 		expected interface{}
@@ -182,7 +182,7 @@ func TestIfElseExpressions(t *testing.T) {
 		{"if (1 < 2) { 10 } else { 20 }", 10},
 	}
 
-	// 各テストケースについて
+	// 各テストセットについて
 	for _, tt := range tests {
 
 		// inputを評価
@@ -210,7 +210,7 @@ func testNullObject(t *testing.T, obj object.Object) bool {
 
 func TestReturnStatements(t *testing.T) {
 
-	// テストケース
+	// テストセット
 	tests := []struct {
 		input    string
 		expected int64
@@ -229,9 +229,79 @@ if (10 > 1) {
 `, 10},
 	}
 
-	// 各テストケースに対して
+	// 各テストセットに対して
 	for _, tt := range tests {
+
+		// inputを評価
 		evaluated := testEval(tt.input)
+
+		// 正しいObjectが帰ってきていることを確認
 		testIntegerObject(t, evaluated, tt.expected)
+	}
+}
+
+func TestErrorHandling(t *testing.T) {
+
+	// テストセット
+	tests := []struct {
+		input           string
+		expectedMessage string
+	}{
+		{
+			"5 + true;",
+			"type mismatch: INTEGER + BOOLEAN",
+		},
+		{
+			"5 + true; 5;",
+			"type mismatch: INTEGER + BOOLEAN",
+		},
+		{
+			"-true",
+			"unknown operator: -BOOLEAN",
+		},
+		{
+			"true + false;",
+			"unknown operator: BOOLEAN + BOOLEAN",
+		},
+		{
+			"5; true + false; 5",
+			"unknown operator: BOOLEAN + BOOLEAN",
+		},
+		{
+			"if (10 > 1) { true + false; }",
+			"unknown operator: BOOLEAN + BOOLEAN",
+		},
+		{
+			`
+if (10 > 1) {
+  if (10 > 1) {
+    return true + false;
+  }
+
+  return 1;
+}
+`,
+			"unknown operator: BOOLEAN + BOOLEAN",
+		},
+	}
+
+	// 各テストセットに対して
+	for _, tt := range tests {
+
+		// inputを評価
+		evaluated := testEval(tt.input)
+
+		// ErrorObjectが返っているはず
+		errObj, ok := evaluated.(*object.Error)
+		if !ok {
+			t.Errorf("no error object returned. got=%T(%+v)",
+				evaluated, evaluated)
+			continue
+		}
+
+		if errObj.Message != tt.expectedMessage {
+			t.Errorf("wrong error message. expected=%q, got=%q",
+				tt.expectedMessage, errObj.Message)
+		}
 	}
 }
