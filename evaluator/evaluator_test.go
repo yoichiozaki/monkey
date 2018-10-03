@@ -7,6 +7,7 @@ import (
 	"testing"
 )
 
+// Integerを正しく評価できているかをテスト
 func TestEvalIntegerExpression(t *testing.T) {
 
 	// テストセット
@@ -24,7 +25,7 @@ func TestEvalIntegerExpression(t *testing.T) {
 		// inputを評価して
 		evaluated := testEval(tt.input)
 
-		// 得られたObjectが期待したものであることを確認
+		// 結果を確認
 		testIntegerObject(t, evaluated, tt.expected)
 	}
 }
@@ -62,4 +63,72 @@ func testIntegerObject(t *testing.T, obj object.Object, expected int64) bool {
 	}
 
 	return true
+}
+
+// Booleanを正しく評価できているかをテスト
+func TestEvalBooleanExpression(t *testing.T) {
+
+	// テストケース
+	tests := []struct {
+		input    string
+		expected bool
+	}{
+		{"true", true},
+		{"false", false},
+	}
+
+	// 各テストケースに対して
+	for _, tt := range tests {
+
+		// inputを評価して
+		evaluated := testEval(tt.input)
+
+		// 結果を確認
+		testBooleanObject(t, evaluated, tt.expected)
+	}
+}
+
+func testBooleanObject(t *testing.T, obj object.Object, expected bool) bool {
+
+	// Boolean型であることを確認
+	result, ok := obj.(*object.Boolean)
+	if !ok {
+		t.Errorf("object is not Boolean. got=%T(%+v)", obj, obj)
+		return false
+	}
+
+	// 格納している値が期待したものであることを確認
+	if result.Value != expected {
+		t.Errorf("object has wrong value. got=%t, want=%", result.Value, expected)
+		return false
+	}
+
+	return true
+}
+
+func TestBangOperator(t *testing.T) {
+
+	// テストケース
+	// 5はtruthyに扱う
+	tests := []struct {
+		input    string
+		expected bool
+	}{
+		{"!true", false},
+		{"!false", true},
+		{"!5", false},
+		{"!!true", true},
+		{"!!false", false},
+		{"!!5", true},
+	}
+
+	// 各テストケースに対して
+	for _, tt := range tests {
+
+		// inputを評価して
+		evaluated := testEval(tt.input)
+
+		// 結果を確認
+		testBooleanObject(t, evaluated, tt.expected)
+	}
 }
