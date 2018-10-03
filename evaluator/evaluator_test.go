@@ -17,6 +17,8 @@ func TestEvalIntegerExpression(t *testing.T) {
 	}{
 		{"5", 5},
 		{"10", 10},
+		{"-5", -5},
+		{"-10", -10},
 	}
 
 	// 各テストセットに対して
@@ -30,7 +32,7 @@ func TestEvalIntegerExpression(t *testing.T) {
 	}
 }
 
-// 入力をレキサ・パーサに通して得られたASTをObjectに変換して返す
+// 入力をレキサ・パーサに通して得られたASTをObjectに変換して返すヘルパー関数
 func testEval(input string) object.Object {
 
 	// 入力で初期化したレキサを生成
