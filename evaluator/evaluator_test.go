@@ -334,3 +334,61 @@ func TestLetStatements(t *testing.T) {
 		testIntegerObject(t, testEval(tt.input), tt.expected)
 	}
 }
+
+// 正しくFunction型のObjectを生成することができているかを確認するテスト
+func TestFunctionObject(t *testing.T) {
+
+	// 関数の入力
+	input := "fn(x) { x + 2; };"
+
+	// ここで評価
+	evaluated := testEval(input)
+
+	// 評価して得られたObjectの型を確認
+	fn, ok := evaluated.(*object.Function)
+	if !ok {
+		t.Fatalf("object is not Function. gpt=%T(%+v)",
+			evaluated, evaluated)
+	}
+
+	// 評価して得られたFunction型のObjectのParametersの個数を確認
+	if len(fn.Parameters) != 1 {
+		t.Fatalf("function has wrong paramaters. Parameters=%+v",
+			fn.Parameters)
+	}
+
+	// 評価して得られたFunction型のObjectのParametersのリテラルを確認
+	if fn.Parameters[0].String() != "x" {
+		t.Fatalf("parameter is not 'x'. got=%q", fn.Parameters[0])
+	}
+
+	expectedBody := "(x + 2)"
+
+	// 評価して得られたFunction型のObjectのBodyのリテラルを確認
+	if fn.Body.String() != expectedBody {
+		t.Fatalf("body is not %q. got=%q",
+			expectedBody, fn.Body.String())
+	}
+}
+
+// 関数呼び出しのテスト
+func TestFunctionApplication(t *testing.T) {
+
+	// テストケース
+	tests := []struct {
+		input    string
+		expected int64
+	}{
+		{"let identity = fn(x) { x; }; identity(5);", 5},
+		{"let identity = fn(x) { return x; }; identity(5);", 5},
+		{"let double = fn(x) { x * 2; }; double(5);", 10},
+		{"let add = fn(x, y) { x + y; }; add(5, 5);", 10},
+		{"let add = fn(x, y) { x + y; }; add(5 + 5, add(5, 5));", 20},
+		{"fn(x) { x; }(5)", 5},
+	}
+
+	// 各テストケースに対して
+	for _, tt := range tests {
+		testIntegerObject(t, testEval(tt.input), tt.expected)
+	}
+}

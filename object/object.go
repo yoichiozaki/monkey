@@ -1,7 +1,10 @@
 package object
 
 import (
+	"bytes"
 	"fmt"
+	"monkey/ast"
+	"strings"
 )
 
 // -----------------------------------------------------
@@ -79,30 +82,27 @@ func (e *Error) Inspect() string  { return "ERROR: " + e.Message }
 // -----------------------------------------------------
 
 // -----------------------------------------------------
-// Environmentの定義
-type Environment struct {
-
-	// 識別子に対応するObjectを保存する
-	store map[string]Object
+// Functionの定義
+type Function struct {
+	Parameters []*ast.Identifier
+	Body       *ast.BlockStatement
+	Env        *Environment
 }
 
-// 新しい環境を生成する
-// 常に一つの環境を使いまわしたいのでポインタで渡す
-func NewEnvironment() *Environment {
-	s := make(map[string]Object)
-	return &Environment{store: s}
-}
-
-// 環境内にnameという名前で登録されているObjectを持ってくる
-func (e *Environment) Get(name string) (Object, bool) {
-	obj, ok := e.store[name]
-	return obj, ok
-}
-
-// 環境内にnameという名前でObjectを登録する
-func (e *Environment) Set(name string, val Object) Object {
-	e.store[name] = val
-	return val
+func (f *Function) Type() ObjectType { return FUNCTION_OBJ }
+func (f *Function) Inspect() string {
+	var out bytes.Buffer
+	params := []string{}
+	for _, p := range f.Parameters {
+		params = append(params, p.String())
+	}
+	out.WriteString("fn")
+	out.WriteString("(")
+	out.WriteString(strings.Join(params, ", "))
+	out.WriteString(") {\n")
+	out.WriteString(f.Body.String())
+	out.WriteString("\n")
+	return out.String()
 }
 
 // -----------------------------------------------------

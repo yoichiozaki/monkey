@@ -2,11 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="7c1d10b4-ff39-4466-b05f-c6da3c2a9ca4" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/object/environment.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/evaluator/evaluator.go" beforeDir="false" afterPath="$PROJECT_DIR$/evaluator/evaluator.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/evaluator/evaluator_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/evaluator/evaluator_test.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/object/object.go" beforeDir="false" afterPath="$PROJECT_DIR$/object/object.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/repl/repl.go" beforeDir="false" afterPath="$PROJECT_DIR$/repl/repl.go" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -30,24 +30,24 @@
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
         <counts>
-          <entry key="go" value="19" />
+          <entry key="go" value="20" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
         <counts>
-          <entry key="Go" value="19" />
+          <entry key="Go" value="20" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="go" value="51182" />
-          <entry key="txt" value="692" />
+          <entry key="go" value="53929" />
+          <entry key="txt" value="720" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="Go" value="51182" />
-          <entry key="PLAIN_TEXT" value="692" />
+          <entry key="Go" value="53929" />
+          <entry key="PLAIN_TEXT" value="720" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.go.postfix.template.usages.trigger">
@@ -77,11 +77,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/object/object.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="490">
-              <caret line="108" lean-forward="true" selection-start-line="108" selection-end-line="108" />
+            <state relative-caret-position="91">
+              <caret line="81" column="56" selection-start-line="81" selection-start-column="56" selection-end-line="81" selection-end-column="56" />
               <folding>
                 <element signature="e#16#47#0" expanded="true" />
               </folding>
@@ -90,10 +90,19 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/object/environment.go">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-2">
+              <caret line="2" column="56" lean-forward="true" selection-start-line="2" selection-start-column="56" selection-end-line="2" selection-end-column="56" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/evaluator/evaluator_test.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="252">
-              <caret line="322" column="6" lean-forward="true" selection-start-line="322" selection-start-column="6" selection-end-line="322" selection-end-column="6" />
+            <state relative-caret-position="179">
+              <caret line="373" column="13" selection-start-line="373" selection-start-column="13" selection-end-line="373" selection-end-column="13" />
               <folding>
                 <element signature="e#19#90#0" expanded="true" />
               </folding>
@@ -104,8 +113,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/evaluator/evaluator.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="3347">
-              <caret line="254" column="55" selection-start-line="254" selection-start-column="55" selection-end-line="254" selection-end-column="55" />
+            <state relative-caret-position="523">
+              <caret line="316" column="57" selection-start-line="316" selection-start-column="57" selection-end-line="316" selection-end-column="57" />
               <folding>
                 <element signature="e#19#67#0" expanded="true" />
               </folding>
@@ -129,7 +138,7 @@
         <entry file="file://$PROJECT_DIR$/ast/ast.go">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="193">
-              <caret line="242" column="5" selection-start-line="242" selection-start-column="5" selection-end-line="242" selection-end-column="5" />
+              <caret line="292" column="5" selection-start-line="292" selection-start-column="5" selection-end-line="292" selection-end-column="5" />
               <folding>
                 <element signature="e#13#59#0" expanded="true" />
               </folding>
@@ -157,15 +166,6 @@
               <folding>
                 <element signature="e#16#90#0" expanded="true" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file:///usr/local/Cellar/go/1.10.3/libexec/src/testing/testing.go">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="6915">
-              <caret line="477" column="5" selection-start-line="477" selection-start-column="5" selection-end-line="477" selection-end-column="5" />
             </state>
           </provider>
         </entry>
@@ -224,9 +224,10 @@
         <option value="$PROJECT_DIR$/parser/parser_test.go" />
         <option value="$PROJECT_DIR$/ast/ast.go" />
         <option value="$PROJECT_DIR$/repl/repl.go" />
-        <option value="$PROJECT_DIR$/evaluator/evaluator.go" />
         <option value="$PROJECT_DIR$/evaluator/evaluator_test.go" />
         <option value="$PROJECT_DIR$/object/object.go" />
+        <option value="$PROJECT_DIR$/object/environment.go" />
+        <option value="$PROJECT_DIR$/evaluator/evaluator.go" />
       </list>
     </option>
   </component>
@@ -316,7 +317,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Go Build.go build main.go">
+  <component name="RunManager" selected="Go Test.TestFunctionApplication in monkey/evaluator">
     <configuration name="go build main.go" type="GoApplicationRunConfiguration" factoryName="Go Application" temporary="true" nameIsGenerated="true">
       <module name="monkey" />
       <working_directory value="$PROJECT_DIR$/" />
@@ -339,7 +340,7 @@
       <pattern value="^TestErrorHandling$" />
       <method v="2" />
     </configuration>
-    <configuration name="TestEvalBooleanExpression in monkey/evaluator" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+    <configuration name="TestFunctionApplication in monkey/evaluator" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
       <module name="monkey" />
       <working_directory value="$PROJECT_DIR$/evaluator" />
       <go_parameters value="-i" />
@@ -348,7 +349,19 @@
       <package value="monkey/evaluator" />
       <directory value="$PROJECT_DIR$/" />
       <filePath value="$PROJECT_DIR$/" />
-      <pattern value="^TestEvalBooleanExpression$" />
+      <pattern value="^TestFunctionApplication$" />
+      <method v="2" />
+    </configuration>
+    <configuration name="TestFunctionObject in monkey/evaluator" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+      <module name="monkey" />
+      <working_directory value="$PROJECT_DIR$/evaluator" />
+      <go_parameters value="-i" />
+      <framework value="gotest" />
+      <kind value="PACKAGE" />
+      <package value="monkey/evaluator" />
+      <directory value="$PROJECT_DIR$/" />
+      <filePath value="$PROJECT_DIR$/" />
+      <pattern value="^TestFunctionObject$" />
       <method v="2" />
     </configuration>
     <configuration name="TestLetStatements in monkey/evaluator" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
@@ -363,45 +376,24 @@
       <pattern value="^TestLetStatements$" />
       <method v="2" />
     </configuration>
-    <configuration name="TestReturnStatements in monkey/evaluator" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
-      <module name="monkey" />
-      <working_directory value="$PROJECT_DIR$/evaluator" />
-      <go_parameters value="-i" />
-      <framework value="gotest" />
-      <kind value="PACKAGE" />
-      <package value="monkey/evaluator" />
-      <directory value="$PROJECT_DIR$/" />
-      <filePath value="$PROJECT_DIR$/" />
-      <pattern value="^TestReturnStatements$" />
-      <method v="2" />
-    </configuration>
     <list>
       <item itemvalue="Go Build.go build main.go" />
-      <item itemvalue="Go Test.TestEvalBooleanExpression in monkey/evaluator" />
-      <item itemvalue="Go Test.TestReturnStatements in monkey/evaluator" />
       <item itemvalue="Go Test.TestErrorHandling in monkey/evaluator" />
       <item itemvalue="Go Test.TestLetStatements in monkey/evaluator" />
+      <item itemvalue="Go Test.TestFunctionObject in monkey/evaluator" />
+      <item itemvalue="Go Test.TestFunctionApplication in monkey/evaluator" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Go Test.TestFunctionApplication in monkey/evaluator" />
+        <item itemvalue="Go Test.TestFunctionObject in monkey/evaluator" />
         <item itemvalue="Go Build.go build main.go" />
         <item itemvalue="Go Test.TestLetStatements in monkey/evaluator" />
         <item itemvalue="Go Test.TestErrorHandling in monkey/evaluator" />
-        <item itemvalue="Go Test.TestReturnStatements in monkey/evaluator" />
-        <item itemvalue="Go Test.TestEvalBooleanExpression in monkey/evaluator" />
       </list>
     </recent_temporary>
   </component>
   <component name="TestHistory">
-    <history-entry file="TestReturnStatements_in_monkey_evaluator - 2018.10.03 at 15h 01m 10s.xml">
-      <configuration name="TestReturnStatements in monkey/evaluator" configurationId="GoTestRunConfiguration" />
-    </history-entry>
-    <history-entry file="TestReturnStatements_in_monkey_evaluator - 2018.10.03 at 15h 02m 30s.xml">
-      <configuration name="TestReturnStatements in monkey/evaluator" configurationId="GoTestRunConfiguration" />
-    </history-entry>
-    <history-entry file="TestErrorHandling_in_monkey_evaluator - 2018.10.03 at 15h 25m 13s.xml">
-      <configuration name="TestErrorHandling in monkey/evaluator" configurationId="GoTestRunConfiguration" />
-    </history-entry>
     <history-entry file="TestErrorHandling_in_monkey_evaluator - 2018.10.03 at 15h 32m 49s.xml">
       <configuration name="TestErrorHandling in monkey/evaluator" configurationId="GoTestRunConfiguration" />
     </history-entry>
@@ -422,6 +414,15 @@
     </history-entry>
     <history-entry file="TestLetStatements_in_monkey_evaluator - 2018.10.04 at 13h 39m 18s.xml">
       <configuration name="TestLetStatements in monkey/evaluator" configurationId="GoTestRunConfiguration" />
+    </history-entry>
+    <history-entry file="TestFunctionObject_in_monkey_evaluator - 2018.10.05 at 13h 03m 36s.xml">
+      <configuration name="TestFunctionObject in monkey/evaluator" configurationId="GoTestRunConfiguration" />
+    </history-entry>
+    <history-entry file="TestFunctionObject_in_monkey_evaluator - 2018.10.05 at 13h 03m 55s.xml">
+      <configuration name="TestFunctionObject in monkey/evaluator" configurationId="GoTestRunConfiguration" />
+    </history-entry>
+    <history-entry file="TestFunctionApplication_in_monkey_evaluator - 2018.10.05 at 15h 41m 35s.xml">
+      <configuration name="TestFunctionApplication in monkey/evaluator" configurationId="GoTestRunConfiguration" />
     </history-entry>
   </component>
   <component name="ToolWindowManager">
@@ -457,7 +458,6 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="implement repl" />
     <MESSAGE value="implement ast/ast.go" />
     <MESSAGE value="implementing parser/parser.go" />
     <MESSAGE value="implement let-parser" />
@@ -482,7 +482,8 @@
     <MESSAGE value="Implemented infix operator evaluator and if-else statement evaluator" />
     <MESSAGE value="Implemented return statement evaluator" />
     <MESSAGE value="Implemented error handling system" />
-    <option name="LAST_COMMIT_MESSAGE" value="Implemented error handling system" />
+    <MESSAGE value="Implemented let statement evaluator" />
+    <option name="LAST_COMMIT_MESSAGE" value="Implemented let statement evaluator" />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/lexer/lexer_test.go">
@@ -566,26 +567,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/evaluator/evaluator.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3347">
-          <caret line="254" column="55" selection-start-line="254" selection-start-column="55" selection-end-line="254" selection-end-column="55" />
-          <folding>
-            <element signature="e#19#67#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/evaluator/evaluator_test.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="252">
-          <caret line="322" column="6" lean-forward="true" selection-start-line="322" selection-start-column="6" selection-end-line="322" selection-end-column="6" />
-          <folding>
-            <element signature="e#19#90#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/main.go">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="270">
@@ -599,7 +580,7 @@
     <entry file="file://$PROJECT_DIR$/ast/ast.go">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="193">
-          <caret line="242" column="5" selection-start-line="242" selection-start-column="5" selection-end-line="242" selection-end-column="5" />
+          <caret line="292" column="5" selection-start-line="292" selection-start-column="5" selection-end-line="292" selection-end-column="5" />
           <folding>
             <element signature="e#13#59#0" expanded="true" />
           </folding>
@@ -608,10 +589,37 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/object/object.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="490">
-          <caret line="108" lean-forward="true" selection-start-line="108" selection-end-line="108" />
+        <state relative-caret-position="91">
+          <caret line="81" column="56" selection-start-line="81" selection-start-column="56" selection-end-line="81" selection-end-column="56" />
           <folding>
             <element signature="e#16#47#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/object/environment.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-2">
+          <caret line="2" column="56" lean-forward="true" selection-start-line="2" selection-start-column="56" selection-end-line="2" selection-end-column="56" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/evaluator/evaluator.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="523">
+          <caret line="316" column="57" selection-start-line="316" selection-start-column="57" selection-end-line="316" selection-end-column="57" />
+          <folding>
+            <element signature="e#19#67#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/evaluator/evaluator_test.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="179">
+          <caret line="373" column="13" selection-start-line="373" selection-start-column="13" selection-end-line="373" selection-end-column="13" />
+          <folding>
+            <element signature="e#19#90#0" expanded="true" />
           </folding>
         </state>
       </provider>

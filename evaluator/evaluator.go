@@ -63,6 +63,20 @@ func Eval(node ast.Node, env *object.Environment) object.Object {
 		return evalIfExpression(node, env)
 	case *ast.Identifier:
 		return evalIdentifier(node, env)
+	case *ast.FunctionLiteral:
+		params := node.Parameters
+		body := node.Body
+		return &object.Function{Parameters: params, Body: body}
+	case *ast.CallExpression:
+		function := Eval(node.Function, env)
+		if isError(function) {
+			return function
+		}
+		args := evalExpressions(node.Arguments, env)
+		if len(args) == 1 && isError(args[0]) {
+			return args[0]
+		}
+		return applyFunction(function, args)
 	}
 
 	return nil
@@ -259,4 +273,68 @@ func evalIdentifier(node *ast.Identifier, env *object.Environment) object.Object
 		return newError("identifier not found: " + node.Value)
 	}
 	return val
+}
+
+// 一連の式を評価し適切なオブジェクトのスライスを返すヘルパー関数
+func evalExpressions(exps []ast.Expression, env *object.Environment) []object.Object {
+
+	// 返すObjectのスライス
+	var result []object.Object
+
+	// 各式に対してい
+	for _, e := range exps {
+
+		// 評価しObjectを得る
+		evaluated := Eval(e, env)
+
+		// エラーが起きたらそこで一連の評価を中断しエラーのみを一つ含むスライスを返す
+		if isError(evaluated) {
+			return []object.Object{evaluated}
+		}
+
+		// 追加
+		result = append(result, evaluated)
+	}
+	return result
+}
+
+// 関数を引数に対して適応させ得られたObjectを返すヘルパー関数
+func applyFunction(fn object.Object, args []object.Object) object.Object {
+
+	// 引数のfnが関数Objectであることを確認
+	function, ok := fn.(*object.Function)
+	if !ok {
+		return newError("not a function: %s", fn.Type())
+	}
+
+	// 関数の持っている環境で環境を拡張する
+	extendedEnv := extendFunctionEnv(function, args)
+
+	// 関数を引数に対して適応
+	evaluated := Eval(function.Body, extendedEnv)
+
+	// ReturnValueObjectでったらならば皮を剥いでObject.Objectにする必要がある
+	return unwrapReturnValue(evaluated)
+}
+
+// 関数ごとに拡張された環境を返すヘルパー関数
+func extendFunctionEnv(fn *object.Function, args []object.Object) *object.Environment {
+
+	// まず関数自体の属している環境から拡張する環境を用意
+	env := object.NewEnclosedEnvironment(fn.Env)
+
+	// 拡張した環境に関数独自の変数を登録していく
+	for paramIdx, param := range fn.Parameters {
+		env.Set(param.Value, args[paramIdx])
+	}
+	return env
+}
+
+// 関数呼び出しから戻ってくるReturnValueObjectをObjectに脱がせてやるヘルパー関数
+// これがいないと関数からのReturnがプログラム全体のReturnとして扱われてしまう
+func unwrapReturnValue(obj object.Object) object.Object {
+	if returnValue, ok := obj.(*object.ReturnValue); ok {
+		return returnValue.Value
+	}
+	return obj
 }
