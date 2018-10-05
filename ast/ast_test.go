@@ -5,6 +5,7 @@ import (
 	"testing"
 )
 
+// String()のテスト
 func TestString(t *testing.T) {
 	program := &Program{
 		Statements: []Statement{

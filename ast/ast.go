@@ -312,3 +312,19 @@ func (ce *CallExpression) String() string {
 }
 
 // -----------------------------------------------------
+
+// -----------------------------------------------------
+// 文字列を表すASTノード
+// 文字列は式であって文ではない
+// <sequence of characters>
+// "hello world"
+type StringLiteral struct {
+	Token token.Token
+	Value string
+}
+
+func (sl *StringLiteral) expressionNode()      {}
+func (sl *StringLiteral) TokenLiteral() string { return sl.Token.Literal }
+func (sl *StringLiteral) String() string       { return sl.Token.Literal }
+
+// -----------------------------------------------------

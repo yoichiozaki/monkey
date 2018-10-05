@@ -66,7 +66,7 @@ func Eval(node ast.Node, env *object.Environment) object.Object {
 	case *ast.FunctionLiteral:
 		params := node.Parameters
 		body := node.Body
-		return &object.Function{Parameters: params, Body: body}
+		return &object.Function{Parameters: params, Body: body, Env: env}
 	case *ast.CallExpression:
 		function := Eval(node.Function, env)
 		if isError(function) {
@@ -77,6 +77,8 @@ func Eval(node ast.Node, env *object.Environment) object.Object {
 			return args[0]
 		}
 		return applyFunction(function, args)
+	case *ast.StringLiteral:
+		return &object.String{Value: node.Value}
 	}
 
 	return nil
@@ -147,6 +149,8 @@ func evalInfixExpression(operator string, left, right object.Object) object.Obje
 	switch {
 	case left.Type() == object.INTEGER_OBJ && right.Type() == object.INTEGER_OBJ:
 		return evalIntegerInfixExpression(operator, left, right)
+	case left.Type() == object.STRING_OBJ && right.Type() == object.STRING_OBJ:
+		return evalStringInfixExpression(operator, left, right)
 	case operator == "==":
 		return nativeBoolToBooleanObject(left == right)
 	case operator == "!=":
@@ -195,7 +199,7 @@ func evalIfExpression(ie *ast.IfExpression, env *object.Environment) object.Obje
 	}
 	if isTruthy(condition) {
 		return Eval(ie.Consequence, env)
-	} else if Eval(ie.Alternative, env) != nil {
+	} else if ie.Alternative != nil {
 		return Eval(ie.Alternative, env)
 	} else {
 		return NULL
@@ -226,9 +230,9 @@ func evalProgram(program *ast.Program, env *object.Environment) object.Object {
 
 		// 評価した結果得られたObjectがReturnValue型であったならばそれを返す
 		switch result := result.(type) {
-		case *object.ReturnValue: // 評価した結果得られたObjectがError型であったならばそれを返す
+		case *object.ReturnValue: // 評価した結果得られたObjectがReturnValue型であったならばそれを返す
 			return result.Value
-		case *object.Error: // 評価した結果得られたObjectがReturnValue型であったならばそれを返す
+		case *object.Error: // 評価した結果得られたObjectがError型であったならばそれを返す
 			return result
 		}
 	}
@@ -337,4 +341,19 @@ func unwrapReturnValue(obj object.Object) object.Object {
 		return returnValue.Value
 	}
 	return obj
+}
+
+// 文字列による中置式を評価して適切なObjectを返すヘルパーヘルパー関数
+func evalStringInfixExpression(operator string, left, right object.Object) object.Object {
+
+	// 文字列に対して+しかサポートしていない
+	// TODO: 文字列に対する!=演算子をサポートするならここに書く
+	if operator != "+" {
+		return newError("unknown operator: %s %s %s",
+			left.Type(), operator, right.Type())
+	}
+
+	leftVal := left.(*object.String).Value
+	rightVal := right.(*object.String).Value
+	return &object.String{Value: leftVal + rightVal}
 }

@@ -2,34 +2,35 @@ package token
 
 type TokenType string
 type Token struct {
-	Type TokenType
+	Type    TokenType
 	Literal string
 }
 
 const (
 	ILLEGAL = "ILLEGAL"
-	EOF = "EOF"
+	EOF     = "EOF"
 
 	// 識別子 + リテラル
-	IDENT = "IDENT" // add, result, x, y, etc.
-	INT = "INT" // 12, 34, ...
+	IDENT  = "IDENT" // add, result, x, y, etc.
+	INT    = "INT"   // 12, 34, ...
+	STRING = "STRING"
 
 	// 演算子
-	ASSIGN = "="
-	PLUS = "+"
-	MINUS = "-"
-	BANG = "!"
+	ASSIGN   = "="
+	PLUS     = "+"
+	MINUS    = "-"
+	BANG     = "!"
 	ASTERISK = "*"
-	SLASH = "/"
+	SLASH    = "/"
 
 	LT = "<" // Less Than
 	GT = ">" // Greater Than
 
-	EQ = "=="
+	EQ     = "=="
 	NOT_EQ = "!="
 
 	// デリミタ
-	COMMA = ","
+	COMMA     = ","
 	SEMICOLON = ";"
 
 	LPAREN = "("
@@ -39,7 +40,7 @@ const (
 
 	// キーワード
 	FUNCTION = "FUNCTION"
-	LET = "LET"
+	LET      = "LET"
 	TRUE     = "TRUE"
 	FALSE    = "FALSE"
 	IF       = "IF"
@@ -48,13 +49,13 @@ const (
 )
 
 // ユーザー定義の識別子と言語のキーワードを区別する機能
-var keywords = map[string]TokenType {
-	"fn": FUNCTION,
-	"let": LET,
-	"true": TRUE,
-	"false": FALSE,
-	"if": IF,
-	"else": ELSE,
+var keywords = map[string]TokenType{
+	"fn":     FUNCTION,
+	"let":    LET,
+	"true":   TRUE,
+	"false":  FALSE,
+	"if":     IF,
+	"else":   ELSE,
 	"return": RETURN,
 }
 

@@ -3,15 +3,15 @@ package lexer
 import "monkey/token"
 
 type Lexer struct {
-	input string
-	position int // 入力における現在の位置
-	readPosition int // これから読み込む文字の位置（すなわち現在の文字の次の文字）
-	ch byte // 現在検査中の文字
+	input        string
+	position     int  // 入力における現在の位置
+	readPosition int  // これから読み込む文字の位置（すなわち現在の文字の次の文字）
+	ch           byte // 現在検査中の文字
 }
 
 // 入力によって初期化済みの字句解析器を与える
 func New(input string) *Lexer {
-	l := &Lexer{input:input}
+	l := &Lexer{input: input}
 	l.readChar()
 	return l
 }
@@ -39,7 +39,7 @@ func (l *Lexer) NextToken() token.Token {
 			ch := l.ch
 			l.readChar()
 			literal := string(ch) + string(l.ch)
-			tok = token.Token{Type:token.NOT_EQ, Literal:literal}
+			tok = token.Token{Type: token.NOT_EQ, Literal: literal}
 		} else {
 			tok = newToken(token.BANG, l.ch)
 		}
@@ -48,7 +48,7 @@ func (l *Lexer) NextToken() token.Token {
 			ch := l.ch
 			l.readChar()
 			literal := string(ch) + string(l.ch)
-			tok = token.Token{Type:token.EQ, Literal:literal}
+			tok = token.Token{Type: token.EQ, Literal: literal}
 		} else {
 			tok = newToken(token.ASSIGN, l.ch)
 		}
@@ -76,6 +76,9 @@ func (l *Lexer) NextToken() token.Token {
 		tok = newToken(token.LBRACE, l.ch)
 	case '}':
 		tok = newToken(token.RBRACE, l.ch)
+	case '"':
+		tok.Type = token.STRING
+		tok.Literal = l.readString()
 	case 0: // 終端
 		tok.Literal = ""
 		tok.Type = token.EOF
@@ -98,13 +101,13 @@ func (l *Lexer) NextToken() token.Token {
 	return tok
 }
 
-// NextToken()内で、読み込んだ文字に対応するトークンを返す
+// NextToken()内で、読み込んだ文字に対応するトークンを返すヘルパー関数
 func newToken(tokenType token.TokenType, ch byte) token.Token {
-	return token.Token{Type:tokenType, Literal:string(ch)}
+	return token.Token{Type: tokenType, Literal: string(ch)}
 }
 
 func (l *Lexer) readIdentifier() string {
-	 // 非英字まで読み進めていく
+	// 非英字まで読み進めていく
 	position := l.position
 	for isLetter(l.ch) {
 		l.readChar()
@@ -144,4 +147,19 @@ func (l *Lexer) peekChar() byte {
 	} else {
 		return l.input[l.readPosition]
 	}
+}
+
+// 文字列として扱われるべき部分まで読み進めていき、得られた文字列を返す関数
+func (l *Lexer) readString() string {
+
+	// TODO: 以下の実装では「"hello \"world\""」や「hello\n world」「hello\t\t\tworld」などには対応できていない
+
+	position := l.position + 1
+	for {
+		l.readChar()
+		if l.ch == '"' || l.ch == 0 {
+			break
+		}
+	}
+	return l.input[position:l.position]
 }

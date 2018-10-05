@@ -979,7 +979,10 @@ func TestCallExpressionParsing(t *testing.T) {
 	testInfixExpression(t, exp.Arguments[2], 4, "+", 5)
 }
 
+// Let文を正しくパースできるかをテスト
 func TestLetStatement(t *testing.T) {
+
+	// テストケース
 	tests := []struct {
 		input              string
 		expectedIdentifier string
@@ -990,12 +993,22 @@ func TestLetStatement(t *testing.T) {
 		{"let foobar = y;", "foobar", "y"},
 	}
 
+	// 各テストに対して
 	for _, tt := range tests {
+
+		// inputで初期化されたレキサを生成
 		l := lexer.New(tt.input)
+
+		// レキサをセットしたパーサを生成
 		p := New(l)
+
+		// プログラムをパース
 		program := p.ParseProgram()
+
+		// パース中のエラーを出力
 		checkParserErrors(t, p)
 
+		// パースした結果が正しいかを検証
 		if len(program.Statements) != 1 {
 			t.Fatalf("program.Statements does not contain 1 statement. got=%d",
 				len(program.Statements))
@@ -1010,5 +1023,38 @@ func TestLetStatement(t *testing.T) {
 		if !testLiteralExpression(t, val, tt.expectedValue) {
 			return
 		}
+	}
+}
+
+// StringLiteralを正しくパースできるかテスト
+func TestStringLiteralExpression(t *testing.T) {
+	input := `"hello world"`
+
+	// inputで初期化されたレキサを生成
+	l := lexer.New(input)
+
+	// レキサをセットしたパーサを生成
+	p := New(l)
+
+	// プログラムをパース
+	program := p.ParseProgram()
+
+	// パース中のエラーを出力
+	checkParserErrors(t, p)
+
+	// 文字列は式文なので
+	// パースして得られたASTにぶら下がっているStatementをExpressionStatementにキャスト
+	stmt := program.Statements[0].(*ast.ExpressionStatement)
+
+	// stmtにぶら下がっているExpressionがStringLiteral型であるかを確認
+	literal, ok := stmt.Expression.(*ast.StringLiteral)
+	if !ok {
+		t.Fatalf("exp not *ast.StringLiteral. got=%T", stmt.Expression)
+	}
+
+	// stmtにぶら下がっているExpressionに格納されているリテラルが正しいかを確認
+	if literal.Value != "hello world" {
+		t.Error("literal.Value not %q. got=%q",
+			"hello world", literal.Value)
 	}
 }

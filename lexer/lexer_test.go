@@ -1,12 +1,13 @@
 package lexer
 
 import (
-	"testing"
 	"monkey/token"
+	"testing"
 )
 
+// レキサの動作確認テスト
 func TestNextToken(t *testing.T) {
-	// 字句解析器への入力
+
 	input := `let five = 5;
 let ten = 10;
 
@@ -26,10 +27,12 @@ if (5 < 10) {
 
 10 == 10;
 10 != 9;
+"foobar";
+"foo bar";
 `
-
-	tests := []struct{
-		expectedType token.TokenType
+	// テストケース
+	tests := []struct {
+		expectedType    token.TokenType
 		expectedLiteral string
 	}{
 		// 字句解析器で出力してほしいもの
@@ -106,18 +109,29 @@ if (5 < 10) {
 		{token.NOT_EQ, "!="},
 		{token.INT, "9"},
 		{token.SEMICOLON, ";"},
+		{token.STRING, "foobar"},
+		{token.SEMICOLON, ";"},
+		{token.STRING, "foo bar"},
+		{token.SEMICOLON, ";"},
 		{token.EOF, ""},
-
 	}
 
+	// inputで初期化されたレキサを生成
 	l := New(input)
 
+	// 各テストセットに対して
 	for i, tt := range tests {
+
+		// 次のトークンを読んで
 		tok := l.NextToken()
+
+		// 得られたトークンの型を確認
 		if tok.Type != tt.expectedType {
 			t.Fatalf("test[%d] - tokentype wrong. expected=%q, got=%q",
 				i, tt.expectedType, tok.Type)
 		}
+
+		// 得られたトークンのリテラルを確認
 		if tok.Literal != tt.expectedLiteral {
 			t.Fatalf("test[%d] - literal wrong. expected=%q, got=%q",
 				i, tt.expectedLiteral, tok.Literal)

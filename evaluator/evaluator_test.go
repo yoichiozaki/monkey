@@ -290,6 +290,10 @@ if (10 > 1) {
 			"foobar",
 			"identifier not found: foobar",
 		},
+		{
+			`"hello" - "world"`,
+			"unknown operator: STRING - STRING",
+		},
 	}
 
 	// 各テストセットに対して
@@ -371,6 +375,18 @@ func TestFunctionObject(t *testing.T) {
 	}
 }
 
+func TestClosures(t *testing.T) {
+	input := `
+let newAdder = fn(x) {
+  fn(y) { x + y };
+};
+
+let addTwo = newAdder(2);
+addTwo(2);`
+
+	testIntegerObject(t, testEval(input), 4)
+}
+
 // 関数呼び出しのテスト
 func TestFunctionApplication(t *testing.T) {
 
@@ -390,5 +406,46 @@ func TestFunctionApplication(t *testing.T) {
 	// 各テストケースに対して
 	for _, tt := range tests {
 		testIntegerObject(t, testEval(tt.input), tt.expected)
+	}
+}
+
+// ast.StringLiteralをobject.Stringに変換することができるかのテスト
+func TestStringLiteral(t *testing.T) {
+	input := `"Hello World!"`
+
+	// ここで評価
+	evaluated := testEval(input)
+
+	// 得られたObjectがString型かを確認
+	str, ok := evaluated.(*object.String)
+	if !ok {
+		t.Fatalf("object is not String. got=%T(%+v)",
+			evaluated, evaluated)
+	}
+
+	// 得られたObjectに格納されている値が正しいかを確認
+	if str.Value != "Hello World!" {
+		t.Error("String has wrong value. got=%q",
+			str.Value)
+	}
+}
+
+func TestStringConcatenation(t *testing.T) {
+	input := `"Hello" + " " + "World!"`
+
+	// ここで評価
+	evaluated := testEval(input)
+
+	// 得られたObjectがString型かを確認
+	str, ok := evaluated.(*object.String)
+	if !ok {
+		t.Fatalf("object is not String. got=%T(%+v)",
+			evaluated, evaluated)
+	}
+
+	// 得られたObjectに格納されている値が正しいかを確認
+	if str.Value != "Hello World!" {
+		t.Error("String has wrong value. got=%q",
+			str.Value)
 	}
 }
