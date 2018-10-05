@@ -55,8 +55,11 @@ func testEval(input string) object.Object {
 	// プログラムをパース
 	program := p.ParseProgram()
 
+	// 新たな環境を生成
+	env := object.NewEnvironment()
+
 	// パースした結果得られるASTを評価
-	return Eval(program)
+	return Eval(program, env)
 }
 
 // 引数objがIntegerObject型で、かつ格納されている値が期待したものになっていることを確認するヘルパー関数
@@ -283,6 +286,10 @@ if (10 > 1) {
 `,
 			"unknown operator: BOOLEAN + BOOLEAN",
 		},
+		{
+			"foobar",
+			"identifier not found: foobar",
+		},
 	}
 
 	// 各テストセットに対して
@@ -303,5 +310,27 @@ if (10 > 1) {
 			t.Errorf("wrong error message. expected=%q, got=%q",
 				tt.expectedMessage, errObj.Message)
 		}
+	}
+}
+
+// Let文の評価をテストする
+func TestLetStatements(t *testing.T) {
+
+	// テストケース
+	tests := []struct {
+		input    string
+		expected int64
+	}{
+		{"let a = 5; a;", 5},
+		{"let a = 5 * 5; a;", 25},
+		{"let a = 5; let b = a;  b;", 5},
+		{"let a = 5; let b = a; let c = a + b + 5; c;", 15},
+	}
+
+	// 各テストケース対して
+	for _, tt := range tests {
+
+		// 各テストケースの結果返ってくるObjectはIntegerObjectであるはず
+		testIntegerObject(t, testEval(tt.input), tt.expected)
 	}
 }

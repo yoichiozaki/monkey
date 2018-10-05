@@ -1,6 +1,8 @@
 package object
 
-import "fmt"
+import (
+	"fmt"
+)
 
 // -----------------------------------------------------
 // Objectの定義
@@ -18,6 +20,7 @@ const (
 	NULL_OBJ         = "NULL"
 	RETURN_VALUE_OBJ = "RETURN_VAL"
 	ERROR_OBJ        = "ERROR"
+	FUNCTION_OBJ     = "FUNCTION"
 )
 
 // -----------------------------------------------------
@@ -72,5 +75,34 @@ type Error struct {
 
 func (e *Error) Type() ObjectType { return ERROR_OBJ }
 func (e *Error) Inspect() string  { return "ERROR: " + e.Message }
+
+// -----------------------------------------------------
+
+// -----------------------------------------------------
+// Environmentの定義
+type Environment struct {
+
+	// 識別子に対応するObjectを保存する
+	store map[string]Object
+}
+
+// 新しい環境を生成する
+// 常に一つの環境を使いまわしたいのでポインタで渡す
+func NewEnvironment() *Environment {
+	s := make(map[string]Object)
+	return &Environment{store: s}
+}
+
+// 環境内にnameという名前で登録されているObjectを持ってくる
+func (e *Environment) Get(name string) (Object, bool) {
+	obj, ok := e.store[name]
+	return obj, ok
+}
+
+// 環境内にnameという名前でObjectを登録する
+func (e *Environment) Set(name string, val Object) Object {
+	e.store[name] = val
+	return val
+}
 
 // -----------------------------------------------------

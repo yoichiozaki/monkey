@@ -13,20 +13,26 @@ var (
 )
 
 // ast.Node型を受け取り評価して、適切なobject.Objectを返す
-func Eval(node ast.Node) object.Object {
+func Eval(node ast.Node, env *object.Environment) object.Object {
 
 	// 引数nodeの型によって処理を振り分ける
 	switch node := node.(type) {
 
 	// 文だった
 	case *ast.Program:
-		return evalProgram(node)
+		return evalProgram(node, env)
 	case *ast.BlockStatement:
-		return evalBlockStatement(node)
+		return evalBlockStatement(node, env)
 	case *ast.ExpressionStatement:
-		return Eval(node.Expression)
+		return Eval(node.Expression, env)
+	case *ast.LetStatement:
+		val := Eval(node.Value, env)
+		if isError(val) {
+			return val
+		}
+		env.Set(node.Name.Value, val)
 	case *ast.ReturnStatement:
-		val := Eval(node.ReturnValue)
+		val := Eval(node.ReturnValue, env)
 		if isError(val) {
 			return val
 		}
@@ -38,23 +44,25 @@ func Eval(node ast.Node) object.Object {
 	case *ast.Boolean:
 		return nativeBoolToBooleanObject(node.Value)
 	case *ast.PrefixExpression:
-		right := Eval(node.Right)
+		right := Eval(node.Right, env)
 		if isError(right) {
 			return right
 		}
 		return evalPrefixExpression(node.Operator, right)
 	case *ast.InfixExpression:
-		left := Eval(node.Left)
+		left := Eval(node.Left, env)
 		if isError(left) {
 			return left
 		}
-		right := Eval(node.Right)
+		right := Eval(node.Right, env)
 		if isError(right) {
 			return right
 		}
 		return evalInfixExpression(node.Operator, left, right)
 	case *ast.IfExpression:
-		return evalIfExpression(node)
+		return evalIfExpression(node, env)
+	case *ast.Identifier:
+		return evalIdentifier(node, env)
 	}
 
 	return nil
@@ -85,11 +93,11 @@ func nativeBoolToBooleanObject(input bool) *object.Boolean {
 // operatorがサポート対象の演算子であることを確認するヘルパー関数
 func evalPrefixExpression(operator string, right object.Object) object.Object {
 	switch operator {
-	case "!":
+	case "!": // 演算子!を評価するヘルパー関数に処理を譲渡
 		return evalBangOperatorExpression(right)
-	case "-":
+	case "-": // 演算子-を評価するヘルパー関数に処理を譲渡
 		return evalMinusPrefixOperatorExpression(right)
-	default:
+	default: // サポートしていない演算子に遭遇したらErrorObjectを返す
 		return newError("unknown operator: %s%s", operator, right.Type())
 	}
 }
@@ -111,6 +119,8 @@ func evalBangOperatorExpression(right object.Object) object.Object {
 
 // 演算子-を評価して適切なObjectを返すヘルパー関数
 func evalMinusPrefixOperatorExpression(right object.Object) object.Object {
+
+	// 演算子-のサポートしていない型に対して作用させようとしているときにはErrorObjectを返す
 	if right.Type() != object.INTEGER_OBJ {
 		return newError("unknown operator: -%s", right.Type())
 	}
@@ -164,15 +174,15 @@ func evalIntegerInfixExpression(operator string, left, right object.Object) obje
 }
 
 // IfExpression型のASTノードを引数にとって評価して適切なObjectを返すヘルパー関数
-func evalIfExpression(ie *ast.IfExpression) object.Object {
-	condition := Eval(ie.Condition)
+func evalIfExpression(ie *ast.IfExpression, env *object.Environment) object.Object {
+	condition := Eval(ie.Condition, env)
 	if isError(condition) {
 		return condition
 	}
 	if isTruthy(condition) {
-		return Eval(ie.Consequence)
-	} else if Eval(ie.Alternative) != nil {
-		return Eval(ie.Alternative)
+		return Eval(ie.Consequence, env)
+	} else if Eval(ie.Alternative, env) != nil {
+		return Eval(ie.Alternative, env)
 	} else {
 		return NULL
 	}
@@ -193,12 +203,12 @@ func isTruthy(obj object.Object) bool {
 }
 
 // プログラムを評価してObjectを返すヘルパー関数
-func evalProgram(program *ast.Program) object.Object {
+func evalProgram(program *ast.Program, env *object.Environment) object.Object {
 	var result object.Object
 	for _, statement := range program.Statements {
 
 		// プログラムを構成する一文一文を一つずつ評価していく
-		result = Eval(statement)
+		result = Eval(statement, env)
 
 		// 評価した結果得られたObjectがReturnValue型であったならばそれを返す
 		switch result := result.(type) {
@@ -212,12 +222,12 @@ func evalProgram(program *ast.Program) object.Object {
 }
 
 // ブロック文を評価してObjectを返すヘルパー関数
-func evalBlockStatement(block *ast.BlockStatement) object.Object {
+func evalBlockStatement(block *ast.BlockStatement, env *object.Environment) object.Object {
 	var result object.Object
 
 	// ブロックに含まれている各文を評価していく
 	for _, statement := range block.Statements {
-		result = Eval(statement)
+		result = Eval(statement, env)
 
 		if result != nil {
 			rt := result.Type()
@@ -240,4 +250,13 @@ func isError(obj object.Object) bool {
 		return obj.Type() == object.ERROR_OBJ
 	}
 	return false
+}
+
+// Identifier型のASTノードを引数に環境内に登録されている対応するObjectを返すヘルパー関数
+func evalIdentifier(node *ast.Identifier, env *object.Environment) object.Object {
+	val, ok := env.Get(node.Value)
+	if !ok {
+		return newError("identifier not found: " + node.Value)
+	}
+	return val
 }
