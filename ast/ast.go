@@ -185,11 +185,11 @@ func (oe *InfixExpression) expressionNode()      {}
 func (oe *InfixExpression) TokenLiteral() string { return oe.Token.Literal }
 func (oe *InfixExpression) String() string {
 	var out bytes.Buffer
-	out.WriteString("(")
+	// out.WriteString("(")
 	out.WriteString(oe.Left.String())
 	out.WriteString(" " + oe.Operator + " ")
 	out.WriteString(oe.Right.String())
-	out.WriteString(")")
+	// out.WriteString(")")
 	return out.String() // "(5 * 5)"
 }
 
@@ -211,7 +211,7 @@ func (b *Boolean) String() string       { return b.Token.Literal }
 
 // -----------------------------------------------------
 // IF文を表すASTノード
-// if (<condition>) <consequence> else <alternative>
+// if ( <condition> ) <consequence> else <alternative>
 // if(x < y) { return x; } else { return y; }
 type IfExpression struct {
 	Token       token.Token     // 'if' トークン
@@ -250,7 +250,9 @@ func (bs *BlockStatement) TokenLiteral() string { return bs.Token.Literal }
 func (bs *BlockStatement) String() string {
 	var out bytes.Buffer
 	for _, s := range bs.Statements {
-		out.WriteString(s.String())
+		out.WriteString("\n")
+		out.WriteString("\t" + s.String())
+		out.WriteString("\n")
 	}
 	return out.String()
 }
@@ -287,7 +289,7 @@ func (fl *FunctionLiteral) String() string {
 
 // -----------------------------------------------------
 // 関数呼び出し式を表すASTノード
-// <expression>(<comma separated expressions>)
+// <expression> ( <comma separated expressions> )
 // add(2, 3)
 // fn(x, y) { x + y }(2, 3)
 type CallExpression struct {
@@ -326,5 +328,80 @@ type StringLiteral struct {
 func (sl *StringLiteral) expressionNode()      {}
 func (sl *StringLiteral) TokenLiteral() string { return sl.Token.Literal }
 func (sl *StringLiteral) String() string       { return sl.Token.Literal }
+
+// -----------------------------------------------------
+
+// -----------------------------------------------------
+// 配列リテラルを表すASTノード
+// [ <sequence of Expressions> ]
+// ["hello", 123, fn(name) = { return "Hi there, " + name; }];
+type ArrayLiteral struct {
+	Token    token.Token // '[' トークン
+	Elements []Expression
+}
+
+func (al *ArrayLiteral) expressionNode()      {}
+func (al *ArrayLiteral) TokenLiteral() string { return al.Token.Literal }
+func (al *ArrayLiteral) String() string {
+	var out bytes.Buffer
+	elements := []string{}
+	for _, el := range al.Elements {
+		elements = append(elements, el.String())
+	}
+	out.WriteString("[")
+	out.WriteString(strings.Join(elements, ", "))
+	out.WriteString("]")
+	return out.String()
+}
+
+// -----------------------------------------------------
+
+// -----------------------------------------------------
+// 添字演算子式を表すASTノード
+// <expression> [ <expression> ]
+// myArray[3]
+// [1, 2, 3, 4][3] => 4
+type IndexExpression struct {
+	Token token.Token // '[' トークン
+	Left  Expression
+	Index Expression
+}
+
+func (ie *IndexExpression) expressionNode()      {}
+func (ie *IndexExpression) TokenLiteral() string { return ie.Token.Literal }
+func (ie *IndexExpression) String() string {
+	var out bytes.Buffer
+	out.WriteString("(")
+	out.WriteString(ie.Left.String())
+	out.WriteString("[")
+	out.WriteString(ie.Index.String())
+	out.WriteString("]")
+	out.WriteString(")")
+	return out.String()
+}
+
+// -----------------------------------------------------
+
+// -----------------------------------------------------
+// ハッシュリテラルを表すASTノード
+// { <expression> : <expression>, <expression> : <expression>, ... }
+type HashLiteral struct {
+	Token token.Token // '{' トークン
+	Pairs map[Expression]Expression
+}
+
+func (hl *HashLiteral) expressionNode()      {}
+func (hl *HashLiteral) TokenLiteral() string { return hl.Token.Literal }
+func (hl *HashLiteral) String() string {
+	var out bytes.Buffer
+	pairs := []string{}
+	for key, value := range hl.Pairs {
+		pairs = append(pairs, key.String()+": "+value.String())
+	}
+	out.WriteString("{")
+	out.WriteString(strings.Join(pairs, ", "))
+	out.WriteString("}")
+	return out.String()
+}
 
 // -----------------------------------------------------

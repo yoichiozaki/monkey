@@ -18,6 +18,7 @@ const (
 	PRODUCT    // *
 	PREFIX     // -x or !x
 	CALL       // myFunction(x)
+	INDEX      // array[index]
 )
 
 // 優先順位テーブル
@@ -31,6 +32,7 @@ var precedences = map[token.TokenType]int{
 	token.SLASH:    PRODUCT,
 	token.ASTERISK: PRODUCT,
 	token.LPAREN:   CALL,
+	token.LBRACKET: INDEX,
 }
 
 // パーサの定義
@@ -65,6 +67,8 @@ func New(l *lexer.Lexer) *Parser {
 	p.registerPrefix(token.IF, p.parseIfExpression)
 	p.registerPrefix(token.FUNCTION, p.parseFunctionLiteral)
 	p.registerPrefix(token.STRING, p.parseStringLiteral)
+	p.registerPrefix(token.LBRACKET, p.parseArrayLiteral)
+	p.registerPrefix(token.LBRACE, p.parseHashLiteral)
 
 	p.infixParseFns = make(map[token.TokenType]infixParseFn)
 	p.registerInfix(token.PLUS, p.parseInfixExpression)
@@ -76,6 +80,7 @@ func New(l *lexer.Lexer) *Parser {
 	p.registerInfix(token.LT, p.parseInfixExpression)
 	p.registerInfix(token.GT, p.parseInfixExpression)
 	p.registerInfix(token.LPAREN, p.parseCallExpression)
+	p.registerInfix(token.LBRACKET, p.parseIndexExpression)
 	return p
 }
 
@@ -509,43 +514,115 @@ func (p *Parser) parseCallExpression(function ast.Expression) ast.Expression {
 	exp := &ast.CallExpression{Token: p.curToken, Function: function}
 
 	// expのArgumentsフィールドに実引数を格納する
-	exp.Arguments = p.parseCallArguments()
+	exp.Arguments = p.parseExpressionList(token.RPAREN)
 	return exp
 }
 
-// 関数呼び出し式における実引数リストを解析してExpression型のASTノードを返すヘルパー関数
-func (p *Parser) parseCallArguments() []ast.Expression {
+// // 関数呼び出し式における実引数リストを解析してExpression型のASTノードを返すヘルパー関数
+// // parseExpressionListメソッドによって一般化
+// func (p *Parser) parseCallArguments() []ast.Expression {
+//
+// 	// 返すべき実引数リストを表現するExpression型のASTノードのスライスを用意
+// 	args := []ast.Expression{}
+//
+// 	// hello()みたいな関数の時は空の引数リスト
+// 	if p.peekTokenIs(token.RPAREN) {
+// 		p.nextToken()
+// 		return args
+// 	}
+//
+// 	p.nextToken()
+//
+// 	// 実引数に遭遇したのでパースしてargsに追加
+// 	args = append(args, p.parseExpression(LOWEST))
+//
+// 	// コンマに遭遇するごとに同じことを繰り返す
+// 	for p.peekTokenIs(token.COMMA) {
+// 		p.nextToken()
+// 		p.nextToken()
+// 		args = append(args, p.parseExpression(LOWEST))
+// 	}
+//
+// 	// 「)」が来るはず
+// 	if !p.expectPeek(token.RPAREN) {
+// 		return nil
+// 	}
+//
+// 	return args
+// }
+
+// StringLiteral型のトークンを返す関数
+func (p *Parser) parseStringLiteral() ast.Expression {
+	return &ast.StringLiteral{Token: p.curToken, Value: p.curToken.Literal}
+}
+
+// ArrayLiteral型のトークンを返す関数
+func (p *Parser) parseArrayLiteral() ast.Expression {
+	array := &ast.ArrayLiteral{Token: p.curToken}
+	array.Elements = p.parseExpressionList(token.RBRACKET)
+	return array
+}
+
+// カンマ区切りのリストをパースして[]ast.Expressionを返すヘルパー関数
+// parseCallArgumentsメソッドの一般化
+func (p *Parser) parseExpressionList(end token.TokenType) []ast.Expression {
 
 	// 返すべき実引数リストを表現するExpression型のASTノードのスライスを用意
-	args := []ast.Expression{}
+	list := []ast.Expression{}
 
-	// hello()みたいな関数の時は空の引数リスト
-	if p.peekTokenIs(token.RPAREN) {
+	// 何もなくて閉じた場合は空のリスト
+	// 例えばhello(), []
+	if p.peekTokenIs(end) {
 		p.nextToken()
-		return args
+		return list
 	}
-
 	p.nextToken()
-
-	// 実引数に遭遇したのでパースしてargsに追加
-	args = append(args, p.parseExpression(LOWEST))
+	list = append(list, p.parseExpression(LOWEST))
 
 	// コンマに遭遇するごとに同じことを繰り返す
 	for p.peekTokenIs(token.COMMA) {
 		p.nextToken()
 		p.nextToken()
-		args = append(args, p.parseExpression(LOWEST))
+		list = append(list, p.parseExpression(LOWEST))
 	}
 
-	// 「)」が来るはず
-	if !p.expectPeek(token.RPAREN) {
+	// 閉じるはず
+	if !p.expectPeek(end) {
 		return nil
 	}
-
-	return args
+	return list
 }
 
-// StringLiteral型のトークンを返す関数
-func (p *Parser) parseStringLiteral() ast.Expression {
-	return &ast.StringLiteral{Token: p.curToken, Value: p.curToken.Literal}
+// 添字演算子[をパースしてExpression型のASTノードを返す関数
+func (p *Parser) parseIndexExpression(left ast.Expression) ast.Expression {
+	exp := &ast.IndexExpression{Token: p.curToken, Left: left}
+	p.nextToken()
+	exp.Index = p.parseExpression(LOWEST)
+	if !p.expectPeek(token.RBRACKET) {
+		return nil
+	}
+	return exp
+}
+
+// ハッシュリテラルをパースしてExpression型のASTノードを返す関数
+func (p *Parser) parseHashLiteral() ast.Expression {
+	hash := &ast.HashLiteral{Token: p.curToken}
+	hash.Pairs = make(map[ast.Expression]ast.Expression)
+	for !p.peekTokenIs(token.RBRACE) {
+		p.nextToken()
+		key := p.parseExpression(LOWEST)
+		if !p.expectPeek(token.COLON) {
+			return nil
+		}
+		p.nextToken()
+		value := p.parseExpression(LOWEST)
+		hash.Pairs[key] = value
+		if !p.peekTokenIs(token.RBRACE) && !p.expectPeek(token.COMMA) {
+			return nil
+		}
+	}
+	if !p.expectPeek(token.RBRACE) {
+		return nil
+	}
+	return hash
 }
