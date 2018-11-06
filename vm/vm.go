@@ -36,14 +36,21 @@ func (vm *VM) Run() error {
 	// fetch-decode-execute cycle.
 	for ip := 0; ip < len(vm.instructions); ip++ { // ip stands for instruction pointer
 		op := code.Opcode(vm.instructions[ip]) // fetch
-		switch op {
+		switch op {                            // decode
 		case code.OpConstant:
-			constIndex := code.ReadUint16(vm.instructions[ip+1:]) // decode operands
+			constIndex := code.ReadUint16(vm.instructions[ip+1:])
 			ip += 2
 			err := vm.push(vm.constants[constIndex]) // execute
 			if err != nil {
 				return err
 			}
+		case code.OpAdd:
+			right := vm.pop() // popping off objects
+			left := vm.pop()
+			leftValue := left.(*object.Integer).Value // unwrapping its value
+			rightValue := right.(*object.Integer).Value
+			result := leftValue + rightValue
+			vm.push(&object.Integer{Value: result})
 		}
 	}
 	return nil
@@ -56,4 +63,10 @@ func (vm *VM) push(o object.Object) error {
 	vm.stack[vm.sp] = o
 	vm.sp++
 	return nil
+}
+
+func (vm *VM) pop() object.Object {
+	o := vm.stack[vm.sp-1]
+	vm.sp-- // allowing the location of element which was just popped off being overwritten eventually.
+	return o
 }

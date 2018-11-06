@@ -11,7 +11,8 @@ type Instructions []byte
 type Opcode byte
 
 const (
-	OpConstant Opcode = iota
+	OpConstant Opcode = iota // set constant value in constant pool
+	OpAdd                    // pop 2 topmost element from stack and add them, push back on the top of the stack
 )
 
 type Definition struct {
@@ -21,6 +22,7 @@ type Definition struct {
 
 var definitions = map[Opcode]*Definition{
 	OpConstant: {"OpConstant", []int{2}},
+	OpAdd:      {"OpAdd", []int{}},
 }
 
 func Lookup(op byte) (*Definition, error) {
@@ -31,7 +33,7 @@ func Lookup(op byte) (*Definition, error) {
 	return def, nil
 }
 
-func Make(op Opcode, operands ...int) []byte {
+func Make(op Opcode, operands ...int) []byte { // note: constant value is indexing with its order in the constant pool.
 	def, ok := definitions[op]
 	if !ok {
 		return []byte{}
@@ -76,6 +78,8 @@ func (ins Instructions) fmtInstruction(def *Definition, operands []int) string {
 		return fmt.Sprintf("ERROR: operand len %d does not match defined %d.\n", len(operands), operandCount)
 	}
 	switch operandCount {
+	case 0:
+		return def.Name
 	case 1:
 		return fmt.Sprintf("%s %d", def.Name, operands[0])
 	}
