@@ -4,15 +4,16 @@ import (
 	"bufio"
 	"fmt"
 	"io"
-	"monkey/evaluator"
+	"monkey/compiler"
 	"monkey/lexer"
-	"monkey/object"
+	// "monkey/object"
 	"monkey/parser"
+	"monkey/vm"
 )
 
 const PROMPT = ">> "
 
-const MONKEY = `
+const MONKEY = `    ___
 　 彡_＿ ＼_　 n
 　 (・・) ○) ((
 　 /‥ ( 　｜　))
@@ -27,7 +28,7 @@ const MONKEY = `
 
 func Start(in io.Reader, out io.Writer) {
 	scanner := bufio.NewScanner(in)
-	env := object.NewEnvironment()
+	// env := object.NewEnvironment()
 
 	for {
 
@@ -64,13 +65,31 @@ func Start(in io.Reader, out io.Writer) {
 		// io.WriteString(out, program.String())
 		// io.WriteString(out, "\n")
 
-		// パースした結果得られたASTを評価器に通してObjectを得る
-		evaluated := evaluator.Eval(program, env)
+		// // パースした結果得られたASTを評価器に通してObjectを得る
+		// evaluated := evaluator.Eval(program, env)
+		//
+		// if evaluated != nil {
+		// 	io.WriteString(out, evaluated.Inspect())
+		// 	io.WriteString(out, "\n")
+		// }
 
-		if evaluated != nil {
-			io.WriteString(out, evaluated.Inspect())
-			io.WriteString(out, "\n")
+		comp := compiler.New()
+		err := comp.Compile(program)
+		if err != nil {
+			io.WriteString(out, MONKEY)
+			fmt.Fprintf(out, "Woops! Complation failed:\n\t%s\n", err)
+			continue
 		}
+		machine := vm.New(comp.Bytecode())
+		err = machine.Run()
+		if err != nil {
+			io.WriteString(out, MONKEY)
+			fmt.Fprintf(out, "Woops! Executing bytecode failed:\n\t%s\n", err)
+			continue
+		}
+		stackTop := machine.StackTop()
+		io.WriteString(out, stackTop.Inspect())
+		io.WriteString(out, "\n")
 	}
 }
 
