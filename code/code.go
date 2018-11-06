@@ -11,8 +11,9 @@ type Instructions []byte
 type Opcode byte
 
 const (
-	OpConstant Opcode = iota // set constant value in constant pool
-	OpAdd                    // pop 2 topmost element from stack and add them, push back on the top of the stack
+	OpConstant Opcode = iota // sets constant value in constant pool.
+	OpAdd                    // pops 2 topmost element from stack and add them, push back on the top of the stack.
+	OpPop                    // makes the stack clean after every expression statement.
 )
 
 type Definition struct {
@@ -23,6 +24,7 @@ type Definition struct {
 var definitions = map[Opcode]*Definition{
 	OpConstant: {"OpConstant", []int{2}},
 	OpAdd:      {"OpAdd", []int{}},
+	OpPop:      {"OpPop", []int{}},
 }
 
 func Lookup(op byte) (*Definition, error) {
