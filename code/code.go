@@ -11,14 +11,17 @@ type Instructions []byte
 type Opcode byte
 
 const (
-	OpConstant Opcode = iota // sets constant value in constant pool.
-	OpAdd                    // pops 2 topmost element from stack and add them, push back on the top of the stack.
-	OpSub                    // pops 2 topmost element from stack and subtract them, push back on the top of the stack.
-	OpMul                    // pops 2 topmost element from stack and multiply them, push back on the top of the stack.
-	OpDiv                    // pops 2 topmost element from stack and divide them, push back on the top of the stack.
-	OpPop                    // makes the stack clean after every expression statement.
-	OpTrue                   // pushes an *object.Boolean(true) on to the VM stack
-	OpFalse                  // pushed an *object.Boolean(false) on to the VM stack
+	OpConstant    Opcode = iota // sets constant value in constant pool.
+	OpAdd                       // pops 2 topmost element from stack and add them, push back on the top of the stack.
+	OpSub                       // pops 2 topmost element from stack and subtract them, push back on the top of the stack.
+	OpMul                       // pops 2 topmost element from stack and multiply them, push back on the top of the stack.
+	OpDiv                       // pops 2 topmost element from stack and divide them, push back on the top of the stack.
+	OpPop                       // makes the stack clean after every expression statement.
+	OpTrue                      // pushes an *object.Boolean(true) on to the VM stack
+	OpFalse                     // pushed an *object.Boolean(false) on to the VM stack
+	OpEqual                     // pops 2 topmost element from stack and comparing them, push back the result on the top of the stack.
+	OpNotEqual                  // pops 2 topmost element from stack and comparing them, push back the result on the top of the stack.
+	OpGreaterThan               // pops 2 topmost element from stack and comparing them, push back the result on the top of the stack.
 )
 
 type Definition struct {
@@ -27,14 +30,17 @@ type Definition struct {
 }
 
 var definitions = map[Opcode]*Definition{
-	OpConstant: {"OpConstant", []int{2}},
-	OpAdd:      {"OpAdd", []int{}},
-	OpSub:      {"OpSub", []int{}},
-	OpMul:      {"OpMul", []int{}},
-	OpDiv:      {"OpDiv", []int{}},
-	OpPop:      {"OpPop", []int{}},
-	OpTrue:     {"OpTrue", []int{}},
-	OpFalse:    {"OpFalse", []int{}},
+	OpConstant:    {"OpConstant", []int{2}},
+	OpAdd:         {"OpAdd", []int{}},
+	OpSub:         {"OpSub", []int{}},
+	OpMul:         {"OpMul", []int{}},
+	OpDiv:         {"OpDiv", []int{}},
+	OpPop:         {"OpPop", []int{}},
+	OpTrue:        {"OpTrue", []int{}},
+	OpFalse:       {"OpFalse", []int{}},
+	OpEqual:       {"OpEqual", []int{}},
+	OpNotEqual:    {"OpNotEqual", []int{}},
+	OpGreaterThan: {"OpGreaterThan", []int{}},
 }
 
 func Lookup(op byte) (*Definition, error) {
