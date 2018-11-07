@@ -12,16 +12,18 @@ type Opcode byte
 
 const (
 	OpConstant    Opcode = iota // sets constant value in constant pool.
-	OpAdd                       // pops 2 topmost element from stack and add them, push back on the top of the stack.
-	OpSub                       // pops 2 topmost element from stack and subtract them, push back on the top of the stack.
-	OpMul                       // pops 2 topmost element from stack and multiply them, push back on the top of the stack.
-	OpDiv                       // pops 2 topmost element from stack and divide them, push back on the top of the stack.
+	OpAdd                       // pops 2 topmost elements from the stack and adds them, pushes back on the top of the stack.
+	OpSub                       // pops 2 topmost elements from the stack and subtracts them, pushes back on the top of the stack.
+	OpMul                       // pops 2 topmost elements from the stack and multiplies them, pushes back on the top of the stack.
+	OpDiv                       // pops 2 topmost elements from the stack and divides them, pushes back on the top of the stack.
 	OpPop                       // makes the stack clean after every expression statement.
-	OpTrue                      // pushes an *object.Boolean(true) on to the VM stack
-	OpFalse                     // pushed an *object.Boolean(false) on to the VM stack
-	OpEqual                     // pops 2 topmost element from stack and comparing them, push back the result on the top of the stack.
-	OpNotEqual                  // pops 2 topmost element from stack and comparing them, push back the result on the top of the stack.
-	OpGreaterThan               // pops 2 topmost element from stack and comparing them, push back the result on the top of the stack.
+	OpTrue                      // pushes an *object.Boolean(true) on to the stack.
+	OpFalse                     // pushed an *object.Boolean(false) on to the stack.
+	OpEqual                     // pops 2 topmost elements from the stack and compares them, pushes back the result on the top of the stack.
+	OpNotEqual                  // pops 2 topmost elements from the stack and compares them, pushes back the result on the top of the stack.
+	OpGreaterThan               // pops 2 topmost elements from the stack and compares them, pushes back the result on the top of the stack.
+	OpMinus                     // pops 1 topmost element from the stack and negates it, pushes back the result on the top of the stack.
+	OpBang                      // pops 1 topmost element from the stack and negates it, pushes back the result on the top of the stack.
 )
 
 type Definition struct {
@@ -41,6 +43,8 @@ var definitions = map[Opcode]*Definition{
 	OpEqual:       {"OpEqual", []int{}},
 	OpNotEqual:    {"OpNotEqual", []int{}},
 	OpGreaterThan: {"OpGreaterThan", []int{}},
+	OpMinus:       {"OpMinus", []int{}},
+	OpBang:        {"OpBang", []int{}},
 }
 
 func Lookup(op byte) (*Definition, error) {
