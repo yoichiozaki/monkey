@@ -13,6 +13,9 @@ type Opcode byte
 const (
 	OpConstant Opcode = iota // sets constant value in constant pool.
 	OpAdd                    // pops 2 topmost element from stack and add them, push back on the top of the stack.
+	OpSub                    // pops 2 topmost element from stack and subtract them, push back on the top of the stack.
+	OpMul                    // pops 2 topmost element from stack and multiply them, push back on the top of the stack.
+	OpDiv                    // pops 2 topmost element from stack and divide them, push back on the top of the stack.
 	OpPop                    // makes the stack clean after every expression statement.
 )
 
@@ -24,6 +27,9 @@ type Definition struct {
 var definitions = map[Opcode]*Definition{
 	OpConstant: {"OpConstant", []int{2}},
 	OpAdd:      {"OpAdd", []int{}},
+	OpSub:      {"OpSub", []int{}},
+	OpMul:      {"OpMul", []int{}},
+	OpDiv:      {"OpDiv", []int{}},
 	OpPop:      {"OpPop", []int{}},
 }
 
