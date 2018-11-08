@@ -385,7 +385,7 @@ func TestGlobalLetStatements(t *testing.T) {
 				code.Make(code.OpConstant, 0),
 				code.Make(code.OpSetGlobal, 0),
 				code.Make(code.OpConstant, 1),
-				code.Make(code.OpGetGlobal, 1),
+				code.Make(code.OpSetGlobal, 1),
 			},
 		},
 		{
