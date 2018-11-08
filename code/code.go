@@ -26,6 +26,7 @@ const (
 	OpBang                        // pops 1 topmost element from the stack and negates it, pushes back the result on the top of the stack.
 	OpJumpNotTruthy               // jumps to a certain address if the topmost element on the stack is not truthy
 	OpJump                        // jumps whatever the topmost element of the stack is
+	OpNull                        // pushes an *object.Null on to the stack.
 )
 
 type Definition struct {
@@ -49,6 +50,7 @@ var definitions = map[Opcode]*Definition{
 	OpBang:          {"OpBang", []int{}},
 	OpJumpNotTruthy: {"OpJumpNotTruthy", []int{2}},
 	OpJump:          {"OpJump", []int{2}},
+	OpNull:          {"OpNull", []int{}},
 }
 
 func Lookup(op byte) (*Definition, error) {

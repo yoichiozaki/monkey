@@ -119,23 +119,16 @@ func (c *Compiler) Compile(node ast.Node) error {
 			c.removeLastPop()
 		}
 
-		// TODO: resolve duplication
-		// back-patching method
+		// Emit an `OpJump` with a bogus value
+		jumpPos := c.emit(code.OpJump, 9999)
+
+		// back-patching method: replace the operand of `OpJumpNotTruthy` after emitting Consequence part.
+		afterConsequencePos := len(c.instructions)
+		c.changeOperand(jumpNotTruthyPos, afterConsequencePos)
+
 		if node.Alternative == nil {
-			// back-patching method: replace the operand of `OpJumpNotTruthy` after emitting Consequence part.
-			// only if we have no node.Alternative can we jump to the current position in c.instructions.
-			afterConsequencePos := len(c.instructions)
-			c.changeOperand(jumpNotTruthyPos, afterConsequencePos)
+			c.emit(code.OpNull) // means artificial alternative for if conditional.
 		} else {
-			// Emit an `OpJump` with a bogus value
-			jumpPos := c.emit(code.OpJump, 9999)
-
-			// the position of the instruction right after the consequence and the `OpJump` instruction is
-			// the right position to jump with `OpJumpNotTruthy`
-			afterConsequencePos := len(c.instructions)
-			c.changeOperand(jumpNotTruthyPos, afterConsequencePos)
-
-			// back-patching method: replace the operand of `OpJump` after emitting Alternative part.
 			err := c.Compile(node.Alternative)
 			if err != nil {
 				return err
@@ -144,10 +137,10 @@ func (c *Compiler) Compile(node ast.Node) error {
 			if c.lastInstructionIsPop() {
 				c.removeLastPop()
 			}
-
-			afterAlternativePos := len(c.instructions)
-			c.changeOperand(jumpPos, afterAlternativePos)
 		}
+		// back-patching method: replace the operand of `OpJump` after emitting Alternative part.
+		afterAlternativePos := len(c.instructions)
+		c.changeOperand(jumpPos, afterAlternativePos)
 	case *ast.BlockStatement:
 		for _, s := range node.Statements {
 			err := c.Compile(s)

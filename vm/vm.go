@@ -18,6 +18,7 @@ type VM struct {
 
 var True = &object.Boolean{Value: true}
 var False = &object.Boolean{Value: false}
+var Null = &object.Null{}
 
 func New(bytecode *compiler.Bytecode) *VM {
 	return &VM{
@@ -92,6 +93,11 @@ func (vm *VM) Run() error {
 			condition := vm.pop()     // we popped up topmost element of the stack,
 			if !isTruthy(condition) { // and check if it is truthy with the helper function isTruthy().
 				ip = pos - 1 // set instruction pointer to the destination address, which means we did jump.
+			}
+		case code.OpNull:
+			err := vm.push(Null)
+			if err != nil {
+				return err
 			}
 		}
 	}
@@ -188,8 +194,10 @@ func (vm *VM) executeBangOperator() error {
 		return vm.push(False)
 	case False:
 		return vm.push(True)
+	case Null:
+		return vm.push(True) // treating everything other than False as truthy.
 	default:
-		return vm.push(False) // treating everything other than False as truthy.
+		return vm.push(False)
 	}
 }
 
@@ -199,13 +207,15 @@ func (vm *VM) executeMinusOperator() error {
 		return fmt.Errorf("unsupported type for negation: %s", operand.Type())
 	}
 	value := operand.(*object.Integer).Value
-	return vm.push(&object.Integer{Value: value})
+	return vm.push(&object.Integer{Value: -value})
 }
 
 func isTruthy(obj object.Object) bool {
 	switch obj := obj.(type) {
 	case *object.Boolean:
 		return obj.Value
+	case *object.Null:
+		return false // tells that Null is not truthy in Monkey.
 	default:
 		return true
 	}
