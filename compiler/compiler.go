@@ -19,6 +19,40 @@ type EmittedInstruction struct {
 	Position int
 }
 
+type SymbolScope string
+
+const (
+	GlobalScope SymbolScope = "GLOBAL"
+)
+
+type Symbol struct {
+	Name  string
+	Scope SymbolScope
+	Index int
+}
+
+type SymbolTable struct {
+	store          map[string]Symbol
+	numDefinitions int
+}
+
+func NewSymbolTable() *SymbolTable {
+	s := make(map[string]Symbol)
+	return &SymbolTable{store: s}
+}
+
+func (s *SymbolTable) Define(name string) Symbol {
+	symbol := Symbol{Name: name, Index: s.numDefinitions, Scope: GlobalScope}
+	s.store[name] = symbol
+	s.numDefinitions++
+	return symbol
+}
+
+func (s *SymbolTable) Resolve(name string) (Symbol, bool) {
+	obj, ok := s.store[name]
+	return obj, ok
+}
+
 func New() *Compiler {
 	return &Compiler{
 		instructions: code.Instructions{},
@@ -147,6 +181,11 @@ func (c *Compiler) Compile(node ast.Node) error {
 			if err != nil {
 				return err
 			}
+		}
+	case *ast.LetStatement:
+		err := c.Compile(node.Value)
+		if err != nil {
+			return err
 		}
 	}
 	return nil

@@ -27,6 +27,8 @@ const (
 	OpJumpNotTruthy               // jumps to a certain address if the topmost element on the stack is not truthy
 	OpJump                        // jumps whatever the topmost element of the stack is
 	OpNull                        // pushes an *object.Null on to the stack.
+	OpGetGlobal                   // gets global variable bound to its operand.
+	OpSetGlobal                   // sets global variable bound to its operand.
 )
 
 type Definition struct {
@@ -51,6 +53,8 @@ var definitions = map[Opcode]*Definition{
 	OpJumpNotTruthy: {"OpJumpNotTruthy", []int{2}},
 	OpJump:          {"OpJump", []int{2}},
 	OpNull:          {"OpNull", []int{}},
+	OpGetGlobal:     {"OpGetGlobal", []int{2}},
+	OpSetGlobal:     {"OpSetGlobal", []int{2}},
 }
 
 func Lookup(op byte) (*Definition, error) {
