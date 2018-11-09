@@ -7,26 +7,39 @@ import (
 	"monkey/object"
 )
 
-const StackSize = 2048
+const (
+	StackSize   = 2048
+	GlobalsSize = 65536
+)
 
 type VM struct {
 	constants    []object.Object
 	instructions code.Instructions
 	stack        []object.Object
-	sp           int // is always pointing to the next value. Top of the stack is stack[sp-1]
+	sp           int             // is always pointing to the next value. Top of the stack is stack[sp-1]
+	globals      []object.Object // stores global variables
 }
 
 var True = &object.Boolean{Value: true}
 var False = &object.Boolean{Value: false}
 var Null = &object.Null{}
 
+// New returns a pointer to the VM which is initialized with compiler.Bytecode.
 func New(bytecode *compiler.Bytecode) *VM {
 	return &VM{
 		instructions: bytecode.Instructions,
 		constants:    bytecode.Constants,
 		stack:        make([]object.Object, StackSize),
 		sp:           0,
+		globals:      make([]object.Object, GlobalsSize),
 	}
+}
+
+// NewWithGlobalsStore returns a pointer to the VM which is initialized with compiler.Bytecode and existing global store.
+func NewWithGlobalsStore(bytecode *compiler.Bytecode, s []object.Object) *VM {
+	vm := New(bytecode) // make new VM which is initialized with bytecode.
+	vm.globals = s      // set given global store.
+	return vm
 }
 
 // func (vm *VM) StackTop() object.Object {
@@ -96,6 +109,17 @@ func (vm *VM) Run() error {
 			}
 		case code.OpNull:
 			err := vm.push(Null)
+			if err != nil {
+				return err
+			}
+		case code.OpSetGlobal:
+			globalIndex := code.ReadUint16(vm.instructions[ip+1:]) // decode the operand of code.OpSetGlobal, which is the index of VM's global store.
+			ip += 2
+			vm.globals[globalIndex] = vm.pop()
+		case code.OpGetGlobal:
+			globalIndex := code.ReadUint16(vm.instructions[ip+1:])
+			ip += 2
+			err := vm.push(vm.globals[globalIndex])
 			if err != nil {
 				return err
 			}
