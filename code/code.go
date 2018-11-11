@@ -29,6 +29,7 @@ const (
 	OpNull                        // pushes an *object.Null on to the stack.
 	OpGetGlobal                   // gets global variable bound to its operand.
 	OpSetGlobal                   // sets global variable bound to its operand.
+	OpArray                       // tells how many elements the array has.
 )
 
 type Definition struct {
@@ -55,6 +56,7 @@ var definitions = map[Opcode]*Definition{
 	OpNull:          {"OpNull", []int{}},
 	OpGetGlobal:     {"OpGetGlobal", []int{2}},
 	OpSetGlobal:     {"OpSetGlobal", []int{2}},
+	OpArray:         {"OpArray", []int{2}},
 }
 
 func Lookup(op byte) (*Definition, error) {
