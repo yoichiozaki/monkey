@@ -149,6 +149,16 @@ func (c *Compiler) Compile(node ast.Node) error {
 	case *ast.StringLiteral:
 		str := &object.String{Value: node.Value}
 		c.emit(code.OpConstant, c.addConstant(str))
+	case *ast.IndexExpression:
+		err := c.Compile(node.Left) // first compile the object being indexed.
+		if err != nil {
+			return err
+		}
+		err = c.Compile(node.Index)
+		if err != nil {
+			return err
+		}
+		c.emit(code.OpIndex)
 	case *ast.ArrayLiteral:
 		for _, el := range node.Elements {
 			err := c.Compile(el)
@@ -178,7 +188,7 @@ func (c *Compiler) Compile(node ast.Node) error {
 				return err
 			}
 		}
-		c.emit(code.OpHash, len(node.Pairs) * 2)
+		c.emit(code.OpHash, len(node.Pairs)*2)
 	case *ast.IfExpression:
 		err := c.Compile(node.Condition)
 		if err != nil {
