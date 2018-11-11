@@ -187,7 +187,7 @@ func (ao *Array) Inspect() string {
 // -----------------------------------------------------
 // Hashオブジェクトの定義
 type HashPair struct {
-	Key   Object
+	Key   Object // RELPにおいてハッシュを表示するときにキーと値のペアを表示するために必要
 	Value Object
 }
 
