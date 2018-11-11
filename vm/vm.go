@@ -66,7 +66,7 @@ func (vm *VM) Run() error {
 				return err
 			}
 		case code.OpAdd, code.OpSub, code.OpMul, code.OpDiv:
-			err := vm.executeBinaryOperation(op)
+			err := vm.executeBinaryOperation(op) // delegate executeBinaryOperation to execute +, -, *, /.
 			if err != nil {
 				return err
 			}
@@ -83,17 +83,17 @@ func (vm *VM) Run() error {
 				return err
 			}
 		case code.OpEqual, code.OpNotEqual, code.OpGreaterThan:
-			err := vm.executeComparison(op)
+			err := vm.executeComparison(op) // delegate executeComparison to execute ==, !=, >.
 			if err != nil {
 				return err
 			}
 		case code.OpBang:
-			err := vm.executeBangOperator()
+			err := vm.executeBangOperator() // delegate executeBangOperation to execute !.
 			if err != nil {
 				return err
 			}
 		case code.OpMinus:
-			err := vm.executeMinusOperator()
+			err := vm.executeMinusOperator() // delegate executeMinusOperation to execute -.
 			if err != nil {
 				return err
 			}
@@ -133,10 +133,14 @@ func (vm *VM) executeBinaryOperation(op code.Opcode) error {
 	left := vm.pop()
 	leftType := left.Type()
 	rightType := right.Type()
-	if leftType == object.INTEGER_OBJ && rightType == object.INTEGER_OBJ {
+	switch {
+	case leftType == object.INTEGER_OBJ && rightType == object.INTEGER_OBJ:
 		return vm.executeBinaryIntegerOperation(op, left, right)
+	case leftType == object.STRING_OBJ&& rightType == object.STRING_OBJ:
+		return vm.executeBinaryStringOperation(op, left, right)
+	default:
+		return fmt.Errorf("unsupported types for binary operation: %s %s", leftType, rightType)
 	}
-	return fmt.Errorf("unsupported types for binary operation: %s %s", leftType, rightType)
 }
 
 func (vm *VM) executeBinaryIntegerOperation(op code.Opcode, left, right object.Object) error {
@@ -156,6 +160,15 @@ func (vm *VM) executeBinaryIntegerOperation(op code.Opcode, left, right object.O
 		return fmt.Errorf("unknown operator: %d", op)
 	}
 	return vm.push(&object.Integer{Value: result})
+}
+
+func (vm *VM) executeBinaryStringOperation(op code.Opcode, left, right object.Object) error {
+	if op != code.OpAdd {
+		return fmt.Errorf("unknown string operator: %d", op)
+	}
+	leftValue := left.(*object.String).Value
+	rightValue := right.(*object.String).Value
+	return vm.push(&object.String{Value: leftValue + rightValue})
 }
 
 func (vm *VM) push(o object.Object) error {
