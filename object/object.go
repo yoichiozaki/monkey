@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"hash/fnv"
 	"monkey/ast"
+	"monkey/code"
 	"strings"
 )
 
@@ -19,16 +20,17 @@ type Object interface {
 }
 
 const (
-	INTEGER_OBJ      = "INTEGER"
-	BOOLEAN_OBJ      = "BOOLEAN"
-	NULL_OBJ         = "NULL"
-	RETURN_VALUE_OBJ = "RETURN_VAL"
-	ERROR_OBJ        = "ERROR"
-	FUNCTION_OBJ     = "FUNCTION"
-	STRING_OBJ       = "STRING"
-	BUILTIN_OBJ      = "BUILTIN"
-	ARRAY_OBJ        = "ARRAY"
-	HASH_OBJ         = "HASH"
+	INTEGER_OBJ              = "INTEGER"
+	BOOLEAN_OBJ              = "BOOLEAN"
+	NULL_OBJ                 = "NULL"
+	RETURN_VALUE_OBJ         = "RETURN_VAL"
+	ERROR_OBJ                = "ERROR"
+	FUNCTION_OBJ             = "FUNCTION"
+	STRING_OBJ               = "STRING"
+	BUILTIN_OBJ              = "BUILTIN"
+	ARRAY_OBJ                = "ARRAY"
+	HASH_OBJ                 = "HASH"
+	COMPILED_FUNCTION_OBJECT = "COMPILED_FUNCTION_OBJECT"
 )
 
 // ハッシュテーブルにおける管理用オブジェクトとしてのHashKey
@@ -131,6 +133,19 @@ func (f *Function) Inspect() string {
 	out.WriteString(f.Body.String())
 	out.WriteString("\n}")
 	return out.String()
+}
+
+// -----------------------------------------------------
+
+// -----------------------------------------------------
+// コンパイルされた関数を表現するオブジェクトの定義
+type CompiledFunction struct {
+	Instructions code.Instructions
+}
+
+func (cf *CompiledFunction) Type() ObjectType { return COMPILED_FUNCTION_OBJECT }
+func (cf *CompiledFunction) Inspect() string {
+	return fmt.Sprintf("CompiledFunction[%p]", cf)
 }
 
 // -----------------------------------------------------

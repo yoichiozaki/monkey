@@ -32,6 +32,9 @@ const (
 	OpArray                       // tells how many elements the array has.
 	OpHash                        // tells how many keys and values the hash has.
 	OpIndex                       // pops 2 topmost elements off from the stack and performs the index operation, puts the result back on.
+	OpCall                        // calls function.
+	OpReturnValue                 // returns from function with return value. The returned value sits on top of the stack.
+	OpReturn                      // return from function with no explicit return value, but implicit vm.Null.
 )
 
 type Definition struct {
@@ -61,6 +64,9 @@ var definitions = map[Opcode]*Definition{
 	OpArray:         {"OpArray", []int{2}},
 	OpHash:          {"OpHash", []int{2}},
 	OpIndex:         {"OpIndex", []int{}},
+	OpCall:          {"OpCall", []int{}},
+	OpReturnValue:   {"OpReturnValue", []int{}},
+	OpReturn:        {"OpReturn", []int{}},
 }
 
 func Lookup(op byte) (*Definition, error) {

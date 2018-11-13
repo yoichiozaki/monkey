@@ -10,14 +10,31 @@ import (
 const (
 	StackSize   = 2048
 	GlobalsSize = 65536
+	MaxFrame    = 1024
 )
 
+// Frame is a data structure that holds execution-relevant information, like the instructions and the instruction pointer.
+// In compiler or interpreter literature, this data structure is also called activation record.
+type Frame struct {
+	fn *object.CompiledFunction // points to the compiled function referenced by the frame.
+	ip int                      // is the instruction pointer in this frame for this function.
+}
+
+func NewFrame(fn *object.CompiledFunction) *Frame {
+	return &Frame{fn: fn, ip: -1}
+}
+
+func (f *Frame) Instructions() code.Instructions {
+	return f.fn.Instructions
+}
+
 type VM struct {
-	constants    []object.Object
-	instructions code.Instructions
-	stack        []object.Object
-	sp           int             // is always pointing to the next value. Top of the stack is stack[sp-1]
-	globals      []object.Object // stores global variables
+	constants  []object.Object
+	stack      []object.Object
+	sp         int             // is always pointing to the next value. Top of the stack is stack[sp-1]
+	globals    []object.Object // stores global variables
+	frames     []*Frame
+	frameIndex int
 }
 
 var True = &object.Boolean{Value: true}
@@ -26,12 +43,17 @@ var Null = &object.Null{}
 
 // New returns a pointer to the VM which is initialized with compiler.Bytecode.
 func New(bytecode *compiler.Bytecode) *VM {
+	mainFn := &object.CompiledFunction{Instructions: bytecode.Instructions}
+	mainFrame := NewFrame(mainFn)
+	frames := make([]*Frame, MaxFrame)
+	frames[0] = mainFrame
 	return &VM{
-		instructions: bytecode.Instructions,
-		constants:    bytecode.Constants,
-		stack:        make([]object.Object, StackSize),
-		sp:           0,
-		globals:      make([]object.Object, GlobalsSize),
+		constants:  bytecode.Constants,
+		stack:      make([]object.Object, StackSize),
+		sp:         0,
+		globals:    make([]object.Object, GlobalsSize),
+		frames:     frames,
+		frameIndex: 1,
 	}
 }
 
@@ -54,13 +76,19 @@ func (vm *VM) LastPoppedStackElem() object.Object {
 }
 
 func (vm *VM) Run() error {
+	var ip int // ip stands for instruction pointer
+	var ins code.Instructions
+	var op code.Opcode
 	// fetch-decode-execute cycle.
-	for ip := 0; ip < len(vm.instructions); ip++ { // ip stands for instruction pointer
-		op := code.Opcode(vm.instructions[ip]) // fetch
-		switch op {                            // decode
+	for vm.currentFrame().ip < len(vm.currentFrame().Instructions())-1 {
+		vm.currentFrame().ip++
+		ip = vm.currentFrame().ip
+		ins = vm.currentFrame().Instructions()
+		op = code.Opcode(ins[ip]) // fetch
+		switch op {               // decode
 		case code.OpConstant:
-			constIndex := code.ReadUint16(vm.instructions[ip+1:])
-			ip += 2
+			constIndex := code.ReadUint16(ins[ip+1:])
+			vm.currentFrame().ip += 2
 			err := vm.push(vm.constants[constIndex]) // execute
 			if err != nil {
 				return err
@@ -98,14 +126,14 @@ func (vm *VM) Run() error {
 				return err
 			}
 		case code.OpJump:
-			pos := int(code.ReadUint16(vm.instructions[ip+1:])) // decodes the operand of code.OpJump, which is the destination to jump.
-			ip = pos - 1                                        // set instruction pointer to the destination address, which means we did jump.
+			pos := int(code.ReadUint16(ins[ip+1:])) // decodes the operand of code.OpJump, which is the destination to jump.
+			vm.currentFrame().ip = pos - 1          // set instruction pointer to the destination address, which means we did jump.
 		case code.OpJumpNotTruthy:
-			pos := int(code.ReadUint16(vm.instructions[ip+1:])) // decodes the operand of code.OpJumpNotTruthy, which is the destination to jump.
-			ip += 2
+			pos := int(code.ReadUint16(ins[ip+1:])) // decodes the operand of code.OpJumpNotTruthy, which is the destination to jump.
+			vm.currentFrame().ip += 2
 			condition := vm.pop()     // we popped up topmost element of the stack,
 			if !isTruthy(condition) { // and check if it is truthy with the helper function isTruthy().
-				ip = pos - 1 // set instruction pointer to the destination address, which means we did jump.
+				vm.currentFrame().ip = pos - 1 // set instruction pointer to the destination address, which means we did jump.
 			}
 		case code.OpNull:
 			err := vm.push(Null)
@@ -113,19 +141,19 @@ func (vm *VM) Run() error {
 				return err
 			}
 		case code.OpSetGlobal:
-			globalIndex := code.ReadUint16(vm.instructions[ip+1:]) // decode the operand of code.OpSetGlobal, which is the index of VM's global store.
-			ip += 2
+			globalIndex := code.ReadUint16(ins[ip+1:]) // decode the operand of code.OpSetGlobal, which is the index of VM's global store.
+			vm.currentFrame().ip += 2
 			vm.globals[globalIndex] = vm.pop()
 		case code.OpGetGlobal:
-			globalIndex := code.ReadUint16(vm.instructions[ip+1:])
-			ip += 2
+			globalIndex := code.ReadUint16(ins[ip+1:])
+			vm.currentFrame().ip += 2
 			err := vm.push(vm.globals[globalIndex])
 			if err != nil {
 				return err
 			}
 		case code.OpArray:
-			numElements := int(code.ReadUint16(vm.instructions[ip+1:]))
-			ip += 2
+			numElements := int(code.ReadUint16(ins[ip+1:]))
+			vm.currentFrame().ip += 2
 			array := vm.buildArray(vm.sp-numElements, vm.sp) // delegate buildArray to execute OpArray.
 			vm.sp = vm.sp - numElements
 			err := vm.push(array)
@@ -133,8 +161,8 @@ func (vm *VM) Run() error {
 				return err
 			}
 		case code.OpHash:
-			numElements := int(code.ReadUint16(vm.instructions[ip+1:]))
-			ip += 2
+			numElements := int(code.ReadUint16(ins[ip+1:]))
+			vm.currentFrame().ip += 2
 			hash, err := vm.buildHash(vm.sp-numElements, vm.sp) // delegate buildHash to execute OpHash.
 			if err != nil {
 				return err
@@ -148,6 +176,28 @@ func (vm *VM) Run() error {
 			index := vm.pop()
 			left := vm.pop()
 			err := vm.executeIndexExpression(left, index)
+			if err != nil {
+				return err
+			}
+		case code.OpCall:
+			fn, ok := vm.stack[vm.sp-1].(*object.CompiledFunction)
+			if !ok {
+				return fmt.Errorf("calling non-function")
+			}
+			frame := NewFrame(fn)
+			vm.pushFrame(frame) // load function on to the stack frame.
+		case code.OpReturnValue:
+			returnValue := vm.pop()
+			vm.popFrame()
+			vm.pop()
+			err := vm.push(returnValue)
+			if err != nil {
+				return err
+			}
+		case code.OpReturn:
+			vm.popFrame()
+			vm.pop()
+			err := vm.push(Null)
 			if err != nil {
 				return err
 			}
@@ -212,6 +262,20 @@ func (vm *VM) pop() object.Object {
 	o := vm.stack[vm.sp-1]
 	vm.sp-- // allowing the location of element which was just popped off being overwritten eventually.
 	return o
+}
+
+func (vm *VM) currentFrame() *Frame {
+	return vm.frames[vm.frameIndex-1]
+}
+
+func (vm *VM) pushFrame(f *Frame) {
+	vm.frames[vm.frameIndex] = f
+	vm.frameIndex++
+}
+
+func (vm *VM) popFrame() *Frame {
+	vm.frameIndex--
+	return vm.frames[vm.frameIndex]
 }
 
 func (vm *VM) executeComparison(op code.Opcode) error {
@@ -299,7 +363,7 @@ func (vm *VM) buildHash(startIndex, endIndex int) (object.Object, error) {
 }
 
 func (vm *VM) executeIndexExpression(left, index object.Object) error {
-	switch  {
+	switch {
 	case left.Type() == object.ARRAY_OBJ && index.Type() == object.INTEGER_OBJ:
 		return vm.executeArrayIndex(left, index)
 	case left.Type() == object.HASH_OBJ:

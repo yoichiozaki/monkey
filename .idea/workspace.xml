@@ -5,6 +5,7 @@
       <change beforePath="$PROJECT_DIR$/code/code.go" beforeDir="false" afterPath="$PROJECT_DIR$/code/code.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/compiler/compiler.go" beforeDir="false" afterPath="$PROJECT_DIR$/compiler/compiler.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/compiler/compiler_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/compiler/compiler_test.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/object/object.go" beforeDir="false" afterPath="$PROJECT_DIR$/object/object.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/vm/vm.go" beforeDir="false" afterPath="$PROJECT_DIR$/vm/vm.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/vm/vm_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/vm/vm_test.go" afterDir="false" />
     </list>
@@ -79,29 +80,29 @@
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="go" value="27979" />
+          <entry key="go" value="35282" />
           <entry key="txt" value="599" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="Go" value="27979" />
+          <entry key="Go" value="35282" />
           <entry key="PLAIN_TEXT" value="599" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
         <counts>
-          <entry key="go" value="13" />
+          <entry key="go" value="15" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
         <counts>
-          <entry key="Go" value="13" />
+          <entry key="Go" value="15" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.go.postfix.template.usages.trigger">
         <counts>
-          <entry key=".p" value="5" />
+          <entry key=".p" value="6" />
           <entry key=".par" value="1" />
           <entry key=".var" value="1" />
         </counts>
@@ -113,17 +114,17 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/code/code.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="757">
-              <caret line="62" column="42" selection-start-line="62" selection-start-column="42" selection-end-line="62" selection-end-column="42" />
+            <state relative-caret-position="-291">
+              <caret line="36" column="109" selection-start-line="36" selection-start-column="109" selection-end-line="36" selection-end-column="109" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file:///usr/local/Cellar/go/1.11.2/libexec/src/encoding/binary/binary.go">
+        <entry file="file://$PROJECT_DIR$/evaluator/evaluator.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="205">
-              <caret line="98" column="17" selection-start-line="98" selection-start-column="17" selection-end-line="98" selection-end-column="17" />
+            <state relative-caret-position="3188">
+              <caret line="217" column="9" selection-start-line="217" selection-start-column="9" selection-end-line="217" selection-end-column="9" />
             </state>
           </provider>
         </entry>
@@ -131,8 +132,26 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/compiler/compiler.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="464">
-              <caret line="156" column="35" lean-forward="true" selection-start-line="156" selection-start-column="35" selection-end-line="156" selection-end-column="35" />
+            <state relative-caret-position="451">
+              <caret line="287" column="27" selection-start-line="287" selection-start-column="27" selection-end-line="287" selection-end-column="27" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/compiler/compiler_test.go">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="295">
+              <caret line="764" column="48" selection-start-line="764" selection-start-column="48" selection-end-line="764" selection-end-column="48" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/object/object.go">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="446">
+              <caret line="149" lean-forward="true" selection-start-line="149" selection-end-line="149" />
             </state>
           </provider>
         </entry>
@@ -149,17 +168,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/vm/vm.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="487">
-              <caret line="314" column="42" selection-start-line="314" selection-start-column="42" selection-end-line="314" selection-end-column="42" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/compiler/compiler_test.go">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="9195">
-              <caret line="621" lean-forward="true" selection-start-line="621" selection-end-line="621" />
+            <state relative-caret-position="550">
+              <caret line="187" column="70" selection-start-line="187" selection-start-column="70" selection-end-line="187" selection-end-column="70" />
             </state>
           </provider>
         </entry>
@@ -167,17 +177,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/vm/vm_test.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="463">
-              <caret line="147" column="31" lean-forward="true" selection-start-line="147" selection-start-column="31" selection-end-line="147" selection-end-column="31" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/object/object.go">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="356">
-              <caret line="189" column="57" selection-start-line="189" selection-start-column="57" selection-end-line="189" selection-end-column="57" />
+            <state relative-caret-position="767">
+              <caret line="165" column="23" selection-start-line="165" selection-start-column="23" selection-end-line="165" selection-end-column="23" />
             </state>
           </provider>
         </entry>
@@ -190,15 +191,6 @@
               <folding>
                 <element signature="e#14#69#0" expanded="true" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/repl/repl.go">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1200">
-              <caret line="91" column="56" lean-forward="true" selection-start-line="91" selection-start-column="56" selection-end-line="91" selection-end-column="56" />
             </state>
           </provider>
         </entry>
@@ -264,8 +256,8 @@
         <option value="$PROJECT_DIR$/repl/repl.go" />
         <option value="$PROJECT_DIR$/object/object.go" />
         <option value="$PROJECT_DIR$/code/code.go" />
-        <option value="$PROJECT_DIR$/compiler/compiler_test.go" />
         <option value="$PROJECT_DIR$/compiler/compiler.go" />
+        <option value="$PROJECT_DIR$/compiler/compiler_test.go" />
         <option value="$PROJECT_DIR$/vm/vm_test.go" />
         <option value="$PROJECT_DIR$/vm/vm.go" />
       </list>
@@ -298,6 +290,11 @@
               <item name="monkey" type="b2602c69:ProjectViewProjectNode" />
               <item name="monkey" type="462c0819:PsiDirectoryNode" />
               <item name="ast" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="monkey" type="b2602c69:ProjectViewProjectNode" />
+              <item name="monkey" type="462c0819:PsiDirectoryNode" />
+              <item name="code" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="monkey" type="b2602c69:ProjectViewProjectNode" />
@@ -374,28 +371,8 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Go Test.TestIndexExpressions in monkey/vm">
-    <configuration name="go build main.go" type="GoApplicationRunConfiguration" factoryName="Go Application" temporary="true" nameIsGenerated="true">
-      <module name="monkey" />
-      <working_directory value="$PROJECT_DIR$/" />
-      <kind value="FILE" />
-      <filePath value="$PROJECT_DIR$/main.go" />
-      <package value="monkey" />
-      <directory value="$PROJECT_DIR$/" />
-      <method v="2" />
-    </configuration>
-    <configuration name="TestHashLiterals in monkey/compiler" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
-      <module name="monkey" />
-      <working_directory value="$PROJECT_DIR$/compiler" />
-      <framework value="gotest" />
-      <kind value="PACKAGE" />
-      <package value="monkey/compiler" />
-      <directory value="$PROJECT_DIR$/" />
-      <filePath value="$PROJECT_DIR$/" />
-      <pattern value="^TestHashLiterals$" />
-      <method v="2" />
-    </configuration>
-    <configuration name="TestIndexExpressions in monkey/vm" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+  <component name="RunManager" selected="Go Test.TestCallingFunctionsWithoutArguments in monkey/vm">
+    <configuration name="TestCallingFunctionsWithoutArguments in monkey/vm" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
       <module name="monkey" />
       <working_directory value="$PROJECT_DIR$/vm" />
       <framework value="gotest" />
@@ -403,7 +380,29 @@
       <package value="monkey/vm" />
       <directory value="$PROJECT_DIR$/" />
       <filePath value="$PROJECT_DIR$/" />
-      <pattern value="^TestIndexExpressions$" />
+      <pattern value="^TestCallingFunctionsWithoutArguments$" />
+      <method v="2" />
+    </configuration>
+    <configuration name="TestFunctionCalls in monkey/compiler" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+      <module name="monkey" />
+      <working_directory value="$PROJECT_DIR$/compiler" />
+      <framework value="gotest" />
+      <kind value="PACKAGE" />
+      <package value="monkey/compiler" />
+      <directory value="$PROJECT_DIR$/" />
+      <filePath value="$PROJECT_DIR$/" />
+      <pattern value="^TestFunctionCalls$" />
+      <method v="2" />
+    </configuration>
+    <configuration name="TestFunctions in monkey/compiler" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+      <module name="monkey" />
+      <working_directory value="$PROJECT_DIR$/compiler" />
+      <framework value="gotest" />
+      <kind value="PACKAGE" />
+      <package value="monkey/compiler" />
+      <directory value="$PROJECT_DIR$/" />
+      <filePath value="$PROJECT_DIR$/" />
+      <pattern value="^TestFunctions$" />
       <method v="2" />
     </configuration>
     <configuration name="go test monkey/compiler" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
@@ -428,51 +427,51 @@
     </configuration>
     <list>
       <item itemvalue="Go Test.go test monkey/compiler" />
-      <item itemvalue="Go Build.go build main.go" />
-      <item itemvalue="Go Test.TestHashLiterals in monkey/compiler" />
+      <item itemvalue="Go Test.TestFunctions in monkey/compiler" />
+      <item itemvalue="Go Test.TestFunctionCalls in monkey/compiler" />
       <item itemvalue="Go Test.go test monkey/vm" />
-      <item itemvalue="Go Test.TestIndexExpressions in monkey/vm" />
+      <item itemvalue="Go Test.TestCallingFunctionsWithoutArguments in monkey/vm" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Go Test.TestIndexExpressions in monkey/vm" />
-        <item itemvalue="Go Test.go test monkey/compiler" />
+        <item itemvalue="Go Test.TestCallingFunctionsWithoutArguments in monkey/vm" />
         <item itemvalue="Go Test.go test monkey/vm" />
-        <item itemvalue="Go Test.TestHashLiterals in monkey/compiler" />
-        <item itemvalue="Go Build.go build main.go" />
+        <item itemvalue="Go Test.TestFunctionCalls in monkey/compiler" />
+        <item itemvalue="Go Test.go test monkey/compiler" />
+        <item itemvalue="Go Test.TestFunctions in monkey/compiler" />
       </list>
     </recent_temporary>
   </component>
   <component name="TestHistory">
-    <history-entry file="go_test_monkey_compiler - 2018.11.08 at 23h 25m 23s.xml">
+    <history-entry file="TestFunctions_in_monkey_compiler - 2018.11.13 at 21h 25m 31s.xml">
+      <configuration name="TestFunctions in monkey/compiler" configurationId="GoTestRunConfiguration" />
+    </history-entry>
+    <history-entry file="TestFunctions_in_monkey_compiler - 2018.11.13 at 21h 42m 27s.xml">
+      <configuration name="TestFunctions in monkey/compiler" configurationId="GoTestRunConfiguration" />
+    </history-entry>
+    <history-entry file="go_test_monkey_compiler - 2018.11.13 at 22h 04m 31s.xml">
       <configuration name="go test monkey/compiler" configurationId="GoTestRunConfiguration" />
     </history-entry>
-    <history-entry file="TestGlobalLetStatements_in_monkey_vm - 2018.11.09 at 10h 47m 40s.xml">
-      <configuration name="TestGlobalLetStatements in monkey/vm" configurationId="GoTestRunConfiguration" />
+    <history-entry file="TestFunctionCalls_in_monkey_compiler - 2018.11.13 at 22h 19m 27s.xml">
+      <configuration name="TestFunctionCalls in monkey/compiler" configurationId="GoTestRunConfiguration" />
     </history-entry>
-    <history-entry file="TestGlobalLetStatements_in_monkey_vm - 2018.11.09 at 12h 54m 51s.xml">
-      <configuration name="TestGlobalLetStatements in monkey/vm" configurationId="GoTestRunConfiguration" />
+    <history-entry file="TestFunctionCalls_in_monkey_compiler - 2018.11.13 at 22h 29m 56s.xml">
+      <configuration name="TestFunctionCalls in monkey/compiler" configurationId="GoTestRunConfiguration" />
     </history-entry>
-    <history-entry file="TestGlobalLetStatements_in_monkey_vm - 2018.11.09 at 12h 55m 28s.xml">
-      <configuration name="TestGlobalLetStatements in monkey/vm" configurationId="GoTestRunConfiguration" />
+    <history-entry file="TestFunctionCalls_in_monkey_compiler - 2018.11.13 at 22h 30m 29s.xml">
+      <configuration name="TestFunctionCalls in monkey/compiler" configurationId="GoTestRunConfiguration" />
     </history-entry>
-    <history-entry file="TestHashLiterals_in_monkey_compiler - 2018.11.11 at 20h 00m 07s.xml">
-      <configuration name="TestHashLiterals in monkey/compiler" configurationId="GoTestRunConfiguration" />
-    </history-entry>
-    <history-entry file="TestHashLiterals_in_monkey_compiler - 2018.11.11 at 20h 25m 05s.xml">
-      <configuration name="TestHashLiterals in monkey/compiler" configurationId="GoTestRunConfiguration" />
-    </history-entry>
-    <history-entry file="go_test_monkey_vm - 2018.11.11 at 21h 04m 27s.xml">
+    <history-entry file="go_test_monkey_vm - 2018.11.13 at 23h 04m 11s.xml">
       <configuration name="go test monkey/vm" configurationId="GoTestRunConfiguration" />
     </history-entry>
-    <history-entry file="go_test_monkey_vm - 2018.11.11 at 21h 09m 03s.xml">
+    <history-entry file="go_test_monkey_vm - 2018.11.13 at 23h 05m 30s.xml">
       <configuration name="go test monkey/vm" configurationId="GoTestRunConfiguration" />
     </history-entry>
-    <history-entry file="go_test_monkey_compiler - 2018.11.11 at 21h 26m 05s.xml">
-      <configuration name="go test monkey/compiler" configurationId="GoTestRunConfiguration" />
+    <history-entry file="go_test_monkey_vm - 2018.11.13 at 23h 06m 51s.xml">
+      <configuration name="go test monkey/vm" configurationId="GoTestRunConfiguration" />
     </history-entry>
-    <history-entry file="TestIndexExpressions_in_monkey_vm - 2018.11.11 at 21h 39m 38s.xml">
-      <configuration name="TestIndexExpressions in monkey/vm" configurationId="GoTestRunConfiguration" />
+    <history-entry file="TestCallingFunctionsWithoutArguments_in_monkey_vm - 2018.11.13 at 23h 09m 27s.xml">
+      <configuration name="TestCallingFunctionsWithoutArguments in monkey/vm" configurationId="GoTestRunConfiguration" />
     </history-entry>
   </component>
   <component name="TodoView">
@@ -669,24 +668,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/evaluator/evaluator_test.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="4395">
-          <caret line="298" column="43" selection-start-line="298" selection-start-column="43" selection-end-line="298" selection-end-column="43" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file:///usr/local/Cellar/go/1.11.1/libexec/src/encoding/binary/binary.go">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="200">
           <caret line="98" column="17" selection-start-line="98" selection-start-column="17" selection-end-line="98" selection-end-column="17" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/evaluator/evaluator.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3195">
-          <caret line="217" column="9" selection-start-line="217" selection-start-column="9" selection-end-line="217" selection-end-column="9" />
         </state>
       </provider>
     </entry>
@@ -711,34 +696,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/main.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="270">
-          <caret line="18" selection-start-line="18" selection-end-line="18" />
-          <folding>
-            <element signature="e#14#69#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file:///usr/local/Cellar/go/1.11.2/libexec/src/encoding/binary/binary.go">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="205">
           <caret line="98" column="17" selection-start-line="98" selection-start-column="17" selection-end-line="98" selection-end-column="17" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/object/object.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="356">
-          <caret line="189" column="57" selection-start-line="189" selection-start-column="57" selection-end-line="189" selection-end-column="57" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/code/code.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="757">
-          <caret line="62" column="42" selection-start-line="62" selection-start-column="42" selection-end-line="62" selection-end-column="42" />
         </state>
       </provider>
     </entry>
@@ -749,31 +710,69 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/main.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="270">
+          <caret line="18" selection-start-line="18" selection-end-line="18" />
+          <folding>
+            <element signature="e#14#69#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/evaluator/evaluator_test.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="588">
+          <caret line="298" column="43" selection-start-line="298" selection-start-column="43" selection-end-line="298" selection-end-column="43" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/evaluator/evaluator.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="3188">
+          <caret line="217" column="9" selection-start-line="217" selection-start-column="9" selection-end-line="217" selection-end-column="9" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/object/object.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="446">
+          <caret line="149" lean-forward="true" selection-start-line="149" selection-end-line="149" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/code/code.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-291">
+          <caret line="36" column="109" selection-start-line="36" selection-start-column="109" selection-end-line="36" selection-end-column="109" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/compiler/compiler.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="464">
-          <caret line="156" column="35" lean-forward="true" selection-start-line="156" selection-start-column="35" selection-end-line="156" selection-end-column="35" />
+        <state relative-caret-position="451">
+          <caret line="287" column="27" selection-start-line="287" selection-start-column="27" selection-end-line="287" selection-end-column="27" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/compiler/compiler_test.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="9195">
-          <caret line="621" lean-forward="true" selection-start-line="621" selection-end-line="621" />
+        <state relative-caret-position="295">
+          <caret line="764" column="48" selection-start-line="764" selection-start-column="48" selection-end-line="764" selection-end-column="48" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/vm/vm_test.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="463">
-          <caret line="147" column="31" lean-forward="true" selection-start-line="147" selection-start-column="31" selection-end-line="147" selection-end-column="31" />
+        <state relative-caret-position="767">
+          <caret line="165" column="23" selection-start-line="165" selection-start-column="23" selection-end-line="165" selection-end-column="23" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/vm/vm.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="487">
-          <caret line="314" column="42" selection-start-line="314" selection-start-column="42" selection-end-line="314" selection-end-column="42" />
+        <state relative-caret-position="550">
+          <caret line="187" column="70" selection-start-line="187" selection-start-column="70" selection-end-line="187" selection-end-column="70" />
         </state>
       </provider>
     </entry>
