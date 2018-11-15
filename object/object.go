@@ -140,7 +140,8 @@ func (f *Function) Inspect() string {
 // -----------------------------------------------------
 // コンパイルされた関数を表現するオブジェクトの定義
 type CompiledFunction struct {
-	Instructions code.Instructions
+	Instructions code.Instructions // この関数をコンパイルして得られる命令列
+	NumLocals    int               // 関数内で使われるローカル変数の個数
 }
 
 func (cf *CompiledFunction) Type() ObjectType { return COMPILED_FUNCTION_OBJECT }

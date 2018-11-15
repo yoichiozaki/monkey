@@ -446,44 +446,6 @@ func TestGlobalLetStatements(t *testing.T) {
 	runCompilerTests(t, tests)
 }
 
-// assertions about the Define method.
-func TestDefine(t *testing.T) {
-	expected := map[string]Symbol{
-		"a": {Name: "a", Scope: GlobalScope, Index: 0},
-		"b": {Name: "b", Scope: GlobalScope, Index: 1},
-	}
-	global := NewSymbolTable()
-	a := global.Define("a")
-	if a != expected["a"] {
-		t.Errorf("expected a=%+v, got=%+v", expected["a"], a)
-	}
-	b := global.Define("b")
-	if b != expected["b"] {
-		t.Errorf("expected b=%+v, got=%v", expected["b"], b)
-	}
-}
-
-// assertions about the Resolve method.
-func TestResolveGlobal(t *testing.T) {
-	global := NewSymbolTable()
-	global.Define("a")
-	global.Define("b")
-	expected := []Symbol{
-		{Name: "a", Scope: GlobalScope, Index: 0},
-		{Name: "b", Scope: GlobalScope, Index: 1},
-	}
-	for _, sym := range expected {
-		result, ok := global.Resolve(sym.Name)
-		if !ok {
-			t.Errorf("name %s not resolved", sym.Name)
-			continue
-		}
-		if result != sym {
-			t.Errorf("expected %s to resolve %+v, got=%+v", sym.Name, sym, result)
-		}
-	}
-}
-
 func TestStringExpressions(t *testing.T) {
 	tests := []compilerTestCase{
 		{
@@ -508,7 +470,7 @@ func TestStringExpressions(t *testing.T) {
 	runCompilerTests(t, tests)
 }
 
-func TestArrayLietrals(t *testing.T) {
+func TestArrayLiterals(t *testing.T) {
 	tests := []compilerTestCase{
 		{
 			input:             "[]",
@@ -691,19 +653,32 @@ func TestCompilerScopes(t *testing.T) {
 	if compiler.scopeIndex != 0 {
 		t.Errorf("scopeIndex wrong. got=%d, want=%d", compiler.scopeIndex, 0)
 	}
+	globalSymbolTable := compiler.symbolTable
 	compiler.emit(code.OpMul)
 	compiler.enterScope()
 	if compiler.scopeIndex != 1 {
 		t.Errorf("scopeIndex wrong. got=%d, want=%d", compiler.scopeIndex, 1)
 	}
 	compiler.emit(code.OpSub)
+	if len(compiler.scopes[compiler.scopeIndex].instructions) != 1 {
+		t.Errorf("instructions length wrong. got=%d", len(compiler.scopes[compiler.scopeIndex].instructions))
+	}
 	last := compiler.scopes[compiler.scopeIndex].lastInstruction
 	if last.Opcode != code.OpSub {
 		t.Errorf("lastInstruction.Opcode wrong. got=%d, want=%d", last.Opcode, code.OpSub)
 	}
+	if compiler.symbolTable.Outer != globalSymbolTable {
+		t.Errorf("compiler did not enclose symbolTable")
+	}
 	compiler.leaveScope()
 	if compiler.scopeIndex != 0 {
 		t.Errorf("scopeIndex wrong. got=%d, want=%d", compiler.scopeIndex, 0)
+	}
+	if compiler.symbolTable != globalSymbolTable {
+		t.Errorf("compiler did not restore global symbol table")
+	}
+	if compiler.symbolTable.Outer != nil {
+		t.Errorf("compiler modified global symbol table incorrectly")
 	}
 	compiler.emit(code.OpAdd)
 	if len(compiler.scopes[compiler.scopeIndex].instructions) != 2 {
@@ -771,6 +746,79 @@ func TestFunctionCalls(t *testing.T) {
 				code.Make(code.OpSetGlobal, 0),
 				code.Make(code.OpGetGlobal, 0),
 				code.Make(code.OpCall),
+				code.Make(code.OpPop),
+			},
+		},
+	}
+	runCompilerTests(t, tests)
+}
+
+func TestLetStatementScopes(t *testing.T) {
+	tests := []compilerTestCase{
+		// assert that accessing a global binding from function results in a OpGetGlobal instruction.
+		{
+			input: `let num = 55;
+					fn() { num }
+					`,
+			expectedConstants: []interface{}{
+				55,
+				[]code.Instructions{
+					code.Make(code.OpGetGlobal),
+					code.Make(code.OpReturnValue),
+				},
+			},
+			expectedInstructions: []code.Instructions{
+				code.Make(code.OpConstant, 0),
+				code.Make(code.OpSetGlobal, 0),
+				code.Make(code.OpConstant, 1),
+				code.Make(code.OpPop),
+			},
+		},
+
+		// assert that creating and accessing a local binding results in a OpSetLocal and OpGetLocal instructions.
+		{
+			input: `fn() {
+						let num = 55;
+						num;
+					}`,
+			expectedConstants: []interface{}{
+				55,
+				[]code.Instructions{
+					code.Make(code.OpConstant, 0),
+					code.Make(code.OpSetLocal, 0),
+					code.Make(code.OpGetLocal, 0),
+					code.Make(code.OpReturnValue),
+				},
+			},
+			expectedInstructions: []code.Instructions{
+				code.Make(code.OpConstant, 1),
+				code.Make(code.OpPop),
+			},
+		},
+
+		// assert that multiple local bindings in the same scope also works.
+		{
+			input: `fn() {
+						let a = 55;
+						let b = 77;
+						return a + b;
+					}`,
+			expectedConstants: []interface{}{
+				55,
+				77,
+				[]code.Instructions{
+					code.Make(code.OpConstant, 0),
+					code.Make(code.OpSetLocal, 0),
+					code.Make(code.OpConstant, 1),
+					code.Make(code.OpSetLocal, 1),
+					code.Make(code.OpGetLocal, 0),
+					code.Make(code.OpGetLocal, 1),
+					code.Make(code.OpAdd),
+					code.Make(code.OpReturnValue),
+				},
+			},
+			expectedInstructions: []code.Instructions{
+				code.Make(code.OpConstant, 2),
 				code.Make(code.OpPop),
 			},
 		},

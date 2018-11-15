@@ -29,6 +29,8 @@ const (
 	OpNull                        // pushes an *object.Null on to the stack.
 	OpGetGlobal                   // gets global variable bound to its operand.
 	OpSetGlobal                   // sets global variable bound to its operand.
+	OpGetLocal                    // gets global variable bound to its operand.
+	OpSetLocal                    // sets local variable bound to its operand.
 	OpArray                       // tells how many elements the array has.
 	OpHash                        // tells how many keys and values the hash has.
 	OpIndex                       // pops 2 topmost elements off from the stack and performs the index operation, puts the result back on.
@@ -61,6 +63,8 @@ var definitions = map[Opcode]*Definition{
 	OpNull:          {"OpNull", []int{}},
 	OpGetGlobal:     {"OpGetGlobal", []int{2}},
 	OpSetGlobal:     {"OpSetGlobal", []int{2}},
+	OpGetLocal:      {"OpGetLocal", []int{1}},
+	OpSetLocal:      {"OpSetLocal", []int{1}},
 	OpArray:         {"OpArray", []int{2}},
 	OpHash:          {"OpHash", []int{2}},
 	OpIndex:         {"OpIndex", []int{}},
@@ -92,6 +96,8 @@ func Make(op Opcode, operands ...int) []byte { // note: constant value is indexi
 	for i, o := range operands {
 		width := def.OperandWidth[i]
 		switch width {
+		case 1:
+			instruction[offset] = byte(o)
 		case 2:
 			binary.BigEndian.PutUint16(instruction[offset:], uint16(o))
 		}
@@ -134,6 +140,8 @@ func ReadOperands(def *Definition, ins Instructions) ([]int, int) {
 	offset := 0
 	for i, width := range def.OperandWidth {
 		switch width {
+		case 1:
+			operands[i] = int(ReadUint8(ins[offset:]))
 		case 2:
 			operands[i] = int(ReadUint16(ins[offset:]))
 		}
@@ -144,4 +152,8 @@ func ReadOperands(def *Definition, ins Instructions) ([]int, int) {
 
 func ReadUint16(ins Instructions) uint16 {
 	return binary.BigEndian.Uint16(ins)
+}
+
+func ReadUint8(ins Instructions) uint8 {
+	return uint8(ins[0])
 }

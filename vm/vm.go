@@ -10,23 +10,7 @@ import (
 const (
 	StackSize   = 2048
 	GlobalsSize = 65536
-	MaxFrame    = 1024
 )
-
-// Frame is a data structure that holds execution-relevant information, like the instructions and the instruction pointer.
-// In compiler or interpreter literature, this data structure is also called activation record.
-type Frame struct {
-	fn *object.CompiledFunction // points to the compiled function referenced by the frame.
-	ip int                      // is the instruction pointer in this frame for this function.
-}
-
-func NewFrame(fn *object.CompiledFunction) *Frame {
-	return &Frame{fn: fn, ip: -1}
-}
-
-func (f *Frame) Instructions() code.Instructions {
-	return f.fn.Instructions
-}
 
 type VM struct {
 	constants  []object.Object
@@ -44,7 +28,7 @@ var Null = &object.Null{}
 // New returns a pointer to the VM which is initialized with compiler.Bytecode.
 func New(bytecode *compiler.Bytecode) *VM {
 	mainFn := &object.CompiledFunction{Instructions: bytecode.Instructions}
-	mainFrame := NewFrame(mainFn)
+	mainFrame := NewFrame(mainFn, 0)
 	frames := make([]*Frame, MaxFrame)
 	frames[0] = mainFrame
 	return &VM{
@@ -151,6 +135,19 @@ func (vm *VM) Run() error {
 			if err != nil {
 				return err
 			}
+		case code.OpSetLocal:
+			localIndex := code.ReadUint8(ins[ip+1:]) // decode operand
+			vm.currentFrame().ip += 1
+			frame := vm.currentFrame()
+			vm.stack[frame.basePointer + int(localIndex)] = vm.pop() // set local binding in the hole.
+		case code.OpGetLocal:
+			localIndex := code.ReadUint8(ins[ip+1:])
+			vm.currentFrame().ip += 1
+			frame := vm.currentFrame()
+			err := vm.push(vm.stack[frame.basePointer + int(localIndex)])
+			if err != nil {
+				return err
+			}
 		case code.OpArray:
 			numElements := int(code.ReadUint16(ins[ip+1:]))
 			vm.currentFrame().ip += 2
@@ -184,19 +181,20 @@ func (vm *VM) Run() error {
 			if !ok {
 				return fmt.Errorf("calling non-function")
 			}
-			frame := NewFrame(fn)
+			frame := NewFrame(fn, vm.sp)
 			vm.pushFrame(frame) // load function on to the stack frame.
+			vm.sp = frame.basePointer + fn.NumLocals // make "hole" to store local bindings.
 		case code.OpReturnValue:
 			returnValue := vm.pop()
-			vm.popFrame()
-			vm.pop()
+			frame := vm.popFrame()
+			vm.sp = frame.basePointer - 1
 			err := vm.push(returnValue)
 			if err != nil {
 				return err
 			}
 		case code.OpReturn:
-			vm.popFrame()
-			vm.pop()
+			frame := vm.popFrame()
+			vm.sp = frame.basePointer - 1
 			err := vm.push(Null)
 			if err != nil {
 				return err
