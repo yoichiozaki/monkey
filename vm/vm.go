@@ -139,12 +139,12 @@ func (vm *VM) Run() error {
 			localIndex := code.ReadUint8(ins[ip+1:]) // decode operand
 			vm.currentFrame().ip += 1
 			frame := vm.currentFrame()
-			vm.stack[frame.basePointer + int(localIndex)] = vm.pop() // set local binding in the hole.
+			vm.stack[frame.basePointer+int(localIndex)] = vm.pop() // set local binding in the hole.
 		case code.OpGetLocal:
 			localIndex := code.ReadUint8(ins[ip+1:])
 			vm.currentFrame().ip += 1
 			frame := vm.currentFrame()
-			err := vm.push(vm.stack[frame.basePointer + int(localIndex)])
+			err := vm.push(vm.stack[frame.basePointer+int(localIndex)])
 			if err != nil {
 				return err
 			}
@@ -177,13 +177,12 @@ func (vm *VM) Run() error {
 				return err
 			}
 		case code.OpCall:
-			fn, ok := vm.stack[vm.sp-1].(*object.CompiledFunction)
-			if !ok {
-				return fmt.Errorf("calling non-function")
+			numArgs := code.ReadUint8(ins[ip+1:])
+			vm.currentFrame().ip += 1
+			err := vm.callFunction(int(numArgs))
+			if err != nil {
+				return err
 			}
-			frame := NewFrame(fn, vm.sp)
-			vm.pushFrame(frame) // load function on to the stack frame.
-			vm.sp = frame.basePointer + fn.NumLocals // make "hole" to store local bindings.
 		case code.OpReturnValue:
 			returnValue := vm.pop()
 			frame := vm.popFrame()
@@ -392,6 +391,20 @@ func (vm *VM) executeHashIndex(hash, index object.Object) error {
 		return vm.push(Null)
 	}
 	return vm.push(pair.Value)
+}
+
+func (vm *VM) callFunction(numArgs int) error {
+	fn, ok := vm.stack[vm.sp-1-numArgs].(*object.CompiledFunction)
+	if !ok {
+		return fmt.Errorf("calling non-function")
+	}
+	if numArgs != fn.NumParameters {
+		return fmt.Errorf("wrong number of arguments: want=%d, got=%d", fn.NumParameters, numArgs)
+	}
+	frame := NewFrame(fn, vm.sp-numArgs)
+	vm.pushFrame(frame)                      // load function on to the stack frame.
+	vm.sp = frame.basePointer + fn.NumLocals // make "hole" to store local bindings.
+	return nil
 }
 
 func isTruthy(obj object.Object) bool {
