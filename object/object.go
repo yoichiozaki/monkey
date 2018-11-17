@@ -31,6 +31,7 @@ const (
 	ARRAY_OBJ                = "ARRAY"
 	HASH_OBJ                 = "HASH"
 	COMPILED_FUNCTION_OBJECT = "COMPILED_FUNCTION_OBJECT"
+	CLOSURE_OBJ              = "CLOSURE"
 )
 
 // ハッシュテーブルにおける管理用オブジェクトとしてのHashKey
@@ -223,6 +224,20 @@ func (h *Hash) Inspect() string {
 	out.WriteString(strings.Join(pairs, ", "))
 	out.WriteString("}")
 	return out.String()
+}
+
+// -----------------------------------------------------
+
+// -----------------------------------------------------
+// Closureオブジェクトの定義
+type Closure struct {
+	Fn   *CompiledFunction
+	Free []Object // store for free variables.
+}
+
+func (c *Closure) Type() ObjectType { return CLOSURE_OBJ }
+func (c *Closure) Inspect() string {
+	return fmt.Sprintf("Closure[%p]", c)
 }
 
 // -----------------------------------------------------

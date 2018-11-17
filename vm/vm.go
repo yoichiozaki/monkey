@@ -28,7 +28,8 @@ var Null = &object.Null{}
 // New returns a pointer to the VM which is initialized with compiler.Bytecode.
 func New(bytecode *compiler.Bytecode) *VM {
 	mainFn := &object.CompiledFunction{Instructions: bytecode.Instructions}
-	mainFrame := NewFrame(mainFn, 0)
+	mainClosure := &object.Closure{Fn: mainFn}
+	mainFrame := NewFrame(mainClosure, 0)
 	frames := make([]*Frame, MaxFrame)
 	frames[0] = mainFrame
 	return &VM{
@@ -132,6 +133,14 @@ func (vm *VM) Run() error {
 			if err != nil {
 				return err
 			}
+		case code.OpGetFree:
+			freeIndex := code.ReadUint8(ins[ip+1:])
+			vm.currentFrame().ip += 1
+			currentClosure := vm.currentFrame().cl
+			err := vm.push(currentClosure.Free[freeIndex])
+			if err != nil {
+				return err
+			}
 		case code.OpSetGlobal:
 			globalIndex := code.ReadUint16(ins[ip+1:]) // decode the operand of code.OpSetGlobal, which is the index of VM's global store.
 			vm.currentFrame().ip += 2
@@ -203,6 +212,14 @@ func (vm *VM) Run() error {
 			frame := vm.popFrame()
 			vm.sp = frame.basePointer - 1
 			err := vm.push(Null)
+			if err != nil {
+				return err
+			}
+		case code.OpClosure:
+			constIndex := code.ReadUint16(ins[ip+1:])
+			numFree := code.ReadUint8(ins[ip+3:])
+			vm.currentFrame().ip += 3
+			err := vm.pushClosure(int(constIndex), int(numFree))
 			if err != nil {
 				return err
 			}
@@ -404,8 +421,8 @@ func (vm *VM) executeHashIndex(hash, index object.Object) error {
 func (vm *VM) executeCall(numArgs int) error {
 	callee := vm.stack[vm.sp-1-numArgs]
 	switch callee := callee.(type) {
-	case *object.CompiledFunction:
-		return vm.callFunction(callee, numArgs)
+	case *object.Closure:
+		return vm.callClosure(callee, numArgs)
 	case *object.Builtin:
 		return vm.callBuiltin(callee, numArgs)
 	default:
@@ -413,26 +430,41 @@ func (vm *VM) executeCall(numArgs int) error {
 	}
 }
 
-func (vm *VM) callFunction(fn *object.CompiledFunction, numArgs int) error {
-	if numArgs != fn.NumParameters {
-		return fmt.Errorf("wrong number of arguments: want=%d, got=%d", fn.NumParameters, numArgs)
+func (vm *VM) callClosure(cl *object.Closure, numArgs int) error {
+	if numArgs != cl.Fn.NumParameters {
+		return fmt.Errorf("wrong number of arguments: want=%d, got=%d", cl.Fn.NumParameters, numArgs)
 	}
-	frame := NewFrame(fn, vm.sp-numArgs)
-	vm.pushFrame(frame)                      // load function on to the stack frame.
-	vm.sp = frame.basePointer + fn.NumLocals // make "hole" to store local bindings.
+	frame := NewFrame(cl, vm.sp-numArgs)
+	vm.pushFrame(frame)                         // load function on to the stack frame.
+	vm.sp = frame.basePointer + cl.Fn.NumLocals // make "hole" to store local bindings.
 	return nil
 }
 
 func (vm *VM) callBuiltin(builtin *object.Builtin, numArgs int) error {
-	args := vm.stack[vm.sp-numArgs:vm.sp] // take the arguments from the stack without removing them yet
-	result := builtin.Fn(args...) // and pass them to the builtin function being called now
-	vm.sp = vm.sp - numArgs - 1 // decrease stack pointer in order to take the arguments and the executed function itself off the stack.
+	args := vm.stack[vm.sp-numArgs : vm.sp] // take the arguments from the stack without removing them yet
+	result := builtin.Fn(args...)           // and pass them to the builtin function being called now
+	vm.sp = vm.sp - numArgs - 1             // decrease stack pointer in order to take the arguments and the executed function itself off the stack.
 	if result != nil {
 		vm.push(result)
 	} else {
 		vm.push(Null) // bring-your-own-null strategy
 	}
 	return nil
+}
+
+func (vm *VM) pushClosure(constIndex, numFree int) error {
+	constant := vm.constants[constIndex]
+	function, ok := constant.(*object.CompiledFunction)
+	if !ok {
+		return fmt.Errorf("not a function: %+v", constant)
+	}
+	free := make([]object.Object, numFree)
+	for i := 0; i < numFree; i++ {
+		free[i] = vm.stack[vm.sp-numFree+i]
+	}
+	vm.sp = vm.sp - numFree
+	closure := &object.Closure{Fn: function, Free: free}
+	return vm.push(closure)
 }
 
 func isTruthy(obj object.Object) bool {

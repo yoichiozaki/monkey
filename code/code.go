@@ -37,7 +37,9 @@ const (
 	OpCall                        // calls function.
 	OpReturnValue                 // returns from function with return value. The returned value sits on top of the stack.
 	OpReturn                      // return from function with no explicit return value, but implicit vm.Null.
-	OpGetBuiltin                  // loads builtin function on to the stack
+	OpGetBuiltin                  // loads builtin function on to the stack.
+	OpClosure                     // tells VM to wrap the specified *object.CompiledFunction in an *object.Closure.
+	OpGetFree                     // tells the VM to retrieve free variables for the closure function.
 )
 
 type Definition struct {
@@ -73,6 +75,8 @@ var definitions = map[Opcode]*Definition{
 	OpReturnValue:   {"OpReturnValue", []int{}},
 	OpReturn:        {"OpReturn", []int{}},
 	OpGetBuiltin:    {"OpGetBuiltin", []int{1}},
+	OpClosure:       {"OpClosure", []int{2, 1}},
+	OpGetFree:       {"OpGetFree", []int{1}},
 }
 
 func Lookup(op byte) (*Definition, error) {
@@ -134,6 +138,8 @@ func (ins Instructions) fmtInstruction(def *Definition, operands []int) string {
 		return def.Name
 	case 1:
 		return fmt.Sprintf("%s %d", def.Name, operands[0])
+	case 2:
+		return fmt.Sprintf("%s %d %d", def.Name, operands[0], operands[1])
 	}
 	return fmt.Sprintf("ERROR: unhandled operandCount for %s is there.\n", def.Name)
 }
