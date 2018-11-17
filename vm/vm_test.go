@@ -536,6 +536,27 @@ func TestClosures(t *testing.T) {
 	runVmTests(t, tests)
 }
 
+func TestRecursiveFibonacci(t *testing.T) {
+	tests := []vmTestCase{
+		{
+			input: `let fibonacci = fn(x) {
+						if (x == 0) {
+							return 0;
+						} else {
+							if (x == 1) {
+								return 1;
+							} else {
+								return fibonacci(x - 1) + fibonacci(x - 2);
+							}
+						}
+					};
+					fibonacci(15);`,
+			expected: 610,
+		},
+	}
+	runVmTests(t, tests)
+}
+
 func runVmTests(t *testing.T, tests []vmTestCase) {
 	t.Helper()
 	for _, tt := range tests {
